@@ -1,0 +1,19 @@
+package com.unixforge.schedule_manager.modules.user.dto;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class UserUpdatePasswordDTO {
+
+    @NotBlank(message = "Senha atual é obrigatória")
+    private String currentPassword;
+
+    @NotBlank(message = "Nova senha é obrigatória")
+    @Size(min = 6, message = "Nova senha deve ter no mínimo 8 caracteres")
+    private String newPassword;
+    
+}
