@@ -3,6 +3,8 @@ package com.unixforge.schedule_manager.modules.schedule.dto;
 import java.time.LocalDateTime;
 
 import com.unixforge.schedule_manager.domain.enums.ScheduleStatus;
+import com.unixforge.schedule_manager.domain.shared.CatalogSummaryDTO;
+import com.unixforge.schedule_manager.domain.shared.UserSummaryDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,27 +22,6 @@ public class ScheduleResponseDTO {
     private CatalogSummaryDTO catalog;
     private LocalDateTime dateTime;
     private ScheduleStatus status;
-
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class UserSummaryDTO {
-        private Long id;
-        private String name;
-    }
-
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class CatalogSummaryDTO {
-        private Long id;
-        private String name;
-        private String duration;
-        private String price;
-    }
-
 
 }
 

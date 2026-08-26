@@ -2,6 +2,8 @@ package com.unixforge.schedule_manager.modules.catalog.dto;
 
 import java.time.Duration;
 
+import com.unixforge.schedule_manager.domain.shared.UserSummaryDTO;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,14 +21,5 @@ public class CatalogResponseDTO {
     private Duration duration;
     private Double price;
     private Boolean isActive;
-
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class UserSummaryDTO {
-        private Long id;
-        private String name;
-    }
     
 }
