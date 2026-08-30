@@ -21,7 +21,7 @@ export function SidebarButton({
     return(
         <div key={id}
         onClick={onClick}
-        className={`transition-all duration-100 w-full h-10 flex items-center rounded px-2 text-sm
+        className={`transition-all duration-100 w-full h-8 flex items-center rounded-lg px-2 text-sm
         ${selected ? "bg-primary/20 border-l-primary border-l-4 text-primary  font-semibold" : "hover:bg-accent"}
         ` + className}>
             <IconField

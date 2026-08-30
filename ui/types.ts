@@ -75,3 +75,6 @@ export interface Schedule {
     status: ScheduleStatus
     created_at: string
 }
+
+
+export type DraftSchedule = Pick<ScheduleInput, "dateonly" | "start_time" | "end_time">;

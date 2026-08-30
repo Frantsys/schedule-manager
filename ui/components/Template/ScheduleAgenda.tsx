@@ -1,8 +1,5 @@
 "use client"
 
-import { ScheduleStatus } from "@/types";
-import { BlockAgenda } from "../organism/BlockAgenda/BlockAgenda";
-import { CustomersCalendar } from "../organism/CustomersCalendar/CustomersCalendar";
 
 
 export function ScheduleAgenda() {
@@ -14,11 +11,8 @@ export function ScheduleAgenda() {
             
             </section>
             <section className="w-full h-10/12 flex">
-                {/* <section className="w-3/16 h-full border">
-                    
-                </section> */}
-                
-                <BlockAgenda
+                {/* <main className="w-full h-full overflow-x-auto">
+                    <BlockAgenda
                 initialSchedules={[
                     {
                         id: "sched-001",
@@ -32,10 +26,10 @@ export function ScheduleAgenda() {
                             id: "serv-001",
                             name: "Corte de Cabelo e Barba",
                             duration_minutes: 45,
-                            price_minute: 1.5 // R$ 67,50 total
+                            price_minute: 1.5 
                         },
                         description: "Cliente solicitou atendimento no primeiro horário do dia.",
-                        dateonly: "2026-08-13",
+                        dateonly: "2026-08-18",
                         start_time: "09:00",
                         end_time: "12:45",
                         status: ScheduleStatus.PENDING,
@@ -44,6 +38,7 @@ export function ScheduleAgenda() {
                     }
                 ]}
                 />
+                </main> */}
             </section>
         </main>
     )
