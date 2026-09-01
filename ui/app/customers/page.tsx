@@ -1,9 +1,14 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Home",
+};
 
 
 export default function Customers() {
     return(
-        <div className="w-full h-full">
+        <main className="w-full h-full">
                 
-        </div>
+        </main>
     );
 }

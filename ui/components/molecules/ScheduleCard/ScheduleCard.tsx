@@ -22,42 +22,38 @@ export function ScheduleCard({
     const endDateIso = new Date(data.dateonly + `T${data.end_time}`);
 
     return(
-        <div className={`w-full h-fit min-h-32 rounded-xl border-l-6
+        <div className={`w-full h-full min-h-0 rounded-lg border-l-6
         
         ` + statusMapper[data.status]}>
             <header className="w-full flex flex-wrap min-h-12 h-fit p-2 gap-2">
                 <Badge
-                className="h-8 px-2"
-                icon={
-                    <Clock10Icon size={12} strokeWidth={2.5} />
-                }
-                >
-                    <p className="text-xs">{format(startDateIso, "HH:mm")} - {format(endDateIso, "HH:mm")}</p>
+                className="h-8 px-2">
+                    <p className="text-[10px]">{format(startDateIso, "HH:mm")} - {format(endDateIso, "HH:mm")}</p>
                 </Badge>
 
                 <Badge
                 className="px-2"
                 icon={
-                    <UserRoundIcon size={12} strokeWidth={2.5} />
+                    <UserRoundIcon size={10} strokeWidth={2.5} />
                 }
                 >
-                    <div className="text-xs">{data.customer.name}</div>
+                    <div className="text-[10px]" title={data.customer.name}>{data.customer.name}</div>
                 </Badge>
 
                 <Badge
                 variant="secondary"
                 className="px-2"
                 icon={
-                    <Briefcase size={12} strokeWidth={2.5} />
+                    <Briefcase size={10} strokeWidth={2.5} />
                 }
                 >
-                    <p className="text-xs">{data.service.name}</p>
+                    <p className="text-[10px]" title={data.service.name}>{data.service.name}</p>
                 </Badge>
             </header>
             <main className="w-full min-h-20 h-fit px-4">
                 <p className="
-                md:text-xs
-                text-foreground/80">{data.description}</p>
+                md:text-[10px]
+                text-foreground/80" title={data.description}>{data.description}</p>
             </main>
         </div>
     );
