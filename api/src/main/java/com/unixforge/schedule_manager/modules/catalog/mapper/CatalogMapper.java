@@ -13,6 +13,7 @@ public interface CatalogMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "professional", ignore = true)
     @Mapping(target = "isActive", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
     Catalog toEntity(CatalogCreateDTO dto);
 
     @Mapping(target = "professional", ignore = true)

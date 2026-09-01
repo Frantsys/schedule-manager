@@ -1,6 +1,9 @@
 package com.unixforge.schedule_manager.modules.schedule.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.unixforge.schedule_manager.domain.enums.ScheduleStatus;
 import com.unixforge.schedule_manager.modules.catalog.model.Catalog;
@@ -47,10 +50,23 @@ public class Schedule {
     private Catalog catalog;
 
     @Column(nullable = false)
-    private LocalDateTime dateTime;
+    private String description;
+
+    @Column(name = "initial_date", nullable = false)
+    private LocalDate initialDate;
+
+    @Column(name = "start_time", nullable = false)
+    private LocalDate startTime; 
+
+    @Column(name = "end_time",nullable = false)
+    private LocalDate endTime;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "status", nullable = false)
     private ScheduleStatus status;
+
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 
 }

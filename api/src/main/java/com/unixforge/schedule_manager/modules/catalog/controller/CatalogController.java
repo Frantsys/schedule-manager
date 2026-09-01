@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
-@RequestMapping("/api/catalogs")
+@RequestMapping("/v1/api/catalogs")
 @RequiredArgsConstructor
 public class CatalogController {
     

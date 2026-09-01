@@ -1,5 +1,7 @@
 package com.unixforge.schedule_manager.modules.user.dto;
 
+import java.time.LocalDateTime;
+
 import com.unixforge.schedule_manager.modules.user.entity.UserRole;
 
 import lombok.Getter;
@@ -17,5 +19,6 @@ public class UserResponseDTO {
     private AddressDTO addressDTO;
     private UserRole role;
     private Boolean isActive;
+    private LocalDateTime createdAt;
 
 }

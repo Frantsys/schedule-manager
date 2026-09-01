@@ -1,6 +1,9 @@
 package com.unixforge.schedule_manager.modules.catalog.model;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.unixforge.schedule_manager.modules.user.entity.User;
 
@@ -43,7 +46,11 @@ public class Catalog {
     @Column(nullable = false)
     private Double price;
 
-    @Column
+    @Column(name = "is_active", nullable = false)
     private Boolean isActive;
+
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 
 }

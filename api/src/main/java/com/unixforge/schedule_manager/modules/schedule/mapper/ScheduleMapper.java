@@ -15,6 +15,7 @@ public interface ScheduleMapper {
     @Mapping(target = "professional", ignore = true)
     @Mapping(target = "catalog", ignore = true)
     @Mapping(target = "status", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
     Schedule toEntity(ScheduleCreateDTO dto);
 
     @Mapping(target = "customer", ignore = true)

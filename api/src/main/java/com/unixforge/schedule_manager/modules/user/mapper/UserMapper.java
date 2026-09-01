@@ -15,6 +15,7 @@ public interface UserMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "password", source = "password")
     @Mapping(target = "isActive", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
     User toEntity(UserCreateDTO dto);
 
     @Mapping(target = "addressDTO", source = "address")
@@ -23,6 +24,7 @@ public interface UserMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "isActive", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "role", ignore = true)
     void updateEntityFromDTO(UserUpdateDTO dto, @MappingTarget User user);
 

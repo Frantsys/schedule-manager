@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
-@RequestMapping("/api/schedules")
+@RequestMapping("/v1/api/schedules")
 @RequiredArgsConstructor
 public class ScheduleController {
     

@@ -1,5 +1,9 @@
 package com.unixforge.schedule_manager.modules.user.entity;
 
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -52,7 +56,11 @@ public class User {
     @Column(nullable = false)
     private UserRole role;
 
-    @Column
+    @Column(name = "is_active",nullable = false)
     private Boolean isActive;
+
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 
 }
