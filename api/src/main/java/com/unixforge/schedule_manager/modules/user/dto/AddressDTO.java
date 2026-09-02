@@ -28,7 +28,7 @@ public class AddressDTO {
     private String district;
 
     @NotBlank(message = "CEP é obrigatório")
-    @Pattern(regexp = "\\d{5}-:\\d{3}", message = "CEP inválido")
+    @Pattern(regexp = "\\d{5}-\\d{3}", message = "CEP inválido")
     private String zipcode;
 
 }

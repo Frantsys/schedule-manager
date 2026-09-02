@@ -5,6 +5,7 @@ import java.time.LocalTime;
 
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,33 +14,31 @@ import lombok.Setter;
 @Setter
 public class ScheduleCreateDTO {
     
-    @NotBlank(message = "Cliente é obrigatório")
+    @NotNull(message = "Cliente é obrigatório")
     private Long customerId;
 
-    @NotBlank(message = "Profissional é obrigatório")
+    @NotNull(message = "Profissional é obrigatório")
     private Long professionalId;
 
-    @NotBlank(message = "Serviço é obrigatório")
+    @NotNull(message = "Serviço é obrigatório")
     private Long catalogId;
 
     @NotBlank(message = "Descrição é obrigatória")
     @Size(min = 5, max = 500, message = "Descrição deve ter entre 5 a 500 caracteres")
     private String description;
 
-    @NotBlank(message = "Data inicial é obrigatória")
+    @NotNull(message = "Data inicial é obrigatória")
     @Future(message = "Data inicial deve estar no futuro")
     private LocalDate startDate;
 
-    @NotBlank(message = "Data de conclusão é obrigatória")
+    @NotNull(message = "Data de conclusão é obrigatória")
     @Future(message = "Data de conclusão deve estar no futuro")
     private LocalDate endDate;
 
-    @NotBlank(message = "Horário de início é obrigatório")
-    @Future(message = "Horário de início deve estar no futuro")
+    @NotNull(message = "Horário de início é obrigatório")
     private LocalTime startTime;
 
-    @NotBlank(message = "Horário de conclusão é obrigatório")
-    @Future(message = "Horário de conclusão deve estar no futuro")
+    @NotNull(message = "Horário de conclusão é obrigatório")
     private LocalTime endTime;
 
 }

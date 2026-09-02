@@ -45,7 +45,7 @@ public class ScheduleService {
         
         Schedule schedule = scheduleMapper.toEntity(requestDTO);
         schedule.setCustomer(customer);
-        schedule.setCustomer(professional);
+        schedule.setProfessional(professional);
         schedule.setCatalog(catalog);
         schedule.setStatus(ScheduleStatus.STATUS_PENDING);
 
@@ -73,7 +73,7 @@ public class ScheduleService {
         
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public ScheduleResponseDTO updateStatus(Long id, ScheduleUpdateStatusDTO requestDTO) {
         
         Schedule schedule = scheduleRepository.findById(id)
@@ -90,7 +90,7 @@ public class ScheduleService {
     @Transactional(readOnly = true)
     public List<ScheduleResponseDTO> listSchedules(ScheduleFilterDTO requestDTO) {
 
-        Specification<ScheduleResponseDTO> spec = Specification.unrestricted();
+        Specification<Schedule> spec = Specification.unrestricted();
 
         if (requestDTO.startDate() != null) {
             spec = spec.and(ScheduleSpecification.createdAfter(requestDTO.startDate()));
@@ -124,7 +124,10 @@ public class ScheduleService {
             spec = spec.and(ScheduleSpecification.filterCatalogId(requestDTO.catalogId()));
         }
 
-        return scheduleRepository.findAll(spec);
+        return scheduleRepository.findAll(spec)
+            .stream()
+            .map(scheduleMapper::toDTO)
+            .toList();
 
     }
 

@@ -3,6 +3,7 @@ package com.unixforge.schedule_manager.modules.user.dto;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -30,7 +31,7 @@ public class UserUpdateDTO {
     @NotBlank(message = "Categoria é obrigatória")
     private String category;
 
-    @NotBlank(message = "Endereço é obrigatório")
+    @NotNull(message = "Endereço é obrigatório")
     @Valid
     private AddressDTO address;
 

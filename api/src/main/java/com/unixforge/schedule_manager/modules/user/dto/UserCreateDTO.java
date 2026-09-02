@@ -5,6 +5,7 @@ import com.unixforge.schedule_manager.modules.user.entity.UserRole;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -37,11 +38,11 @@ public class UserCreateDTO {
     @NotBlank(message = "Categoria é obrigatória")
     private String category;
 
-    @NotBlank(message = "Endereço é obrigatório")
+    @NotNull(message = "Endereço é obrigatório")
     @Valid
     private AddressDTO address;
 
-    @NotBlank(message = "Função é obrigatória")
+    @NotNull(message = "Função é obrigatória")
     private UserRole role;
 
 }

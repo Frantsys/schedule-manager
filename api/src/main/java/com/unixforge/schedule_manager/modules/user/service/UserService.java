@@ -78,7 +78,7 @@ public class UserService {
         User user = userRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Usuário não foi encontrado com ID " +  id));
 
-        if(!passwordEncoder.matches(user.getPassword(), requestDTO.getCurrentPassword())) {
+        if(!passwordEncoder.matches(requestDTO.getCurrentPassword(), user.getPassword())) {
             throw new RuntimeException("Senha atual incorreta");
         }
 
