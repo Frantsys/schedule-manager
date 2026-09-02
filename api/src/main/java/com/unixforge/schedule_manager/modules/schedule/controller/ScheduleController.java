@@ -4,10 +4,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unixforge.schedule_manager.modules.schedule.dto.ScheduleCreateDTO;
+import com.unixforge.schedule_manager.modules.schedule.dto.ScheduleFilterDTO;
 import com.unixforge.schedule_manager.modules.schedule.dto.ScheduleResponseDTO;
 import com.unixforge.schedule_manager.modules.schedule.dto.ScheduleUpdateStatusDTO;
 import com.unixforge.schedule_manager.modules.schedule.service.ScheduleService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+@Tag(name = "Schedule", description = "API for managing schedules")
 @RestController
 @RequestMapping("/v1/api/schedules")
 @RequiredArgsConstructor
@@ -56,6 +59,13 @@ public class ScheduleController {
         return ResponseEntity.ok(updatedSchedules);
     }
 
+    @GetMapping("/filter")
+    public ResponseEntity<List<ScheduleResponseDTO>> listSchedules(ScheduleFilterDTO filter) {
+        List<ScheduleResponseDTO> schedules = scheduleService.listSchedules(filter);
+
+        return ResponseEntity.ok(schedules);
+    }
+    
     
 
 }

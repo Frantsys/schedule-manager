@@ -10,6 +10,7 @@ import com.unixforge.schedule_manager.modules.user.dto.UserUpdateDTO;
 import com.unixforge.schedule_manager.modules.user.dto.UserUpdatePasswordDTO;
 import com.unixforge.schedule_manager.modules.user.service.UserService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+@Tag(name = "User", description = "API for managing users")
 @RestController
 @RequestMapping("/v1/api/users")
 @RequiredArgsConstructor

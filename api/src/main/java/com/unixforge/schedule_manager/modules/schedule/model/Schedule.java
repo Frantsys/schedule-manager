@@ -2,6 +2,7 @@ package com.unixforge.schedule_manager.modules.schedule.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -52,14 +53,17 @@ public class Schedule {
     @Column(nullable = false)
     private String description;
 
-    @Column(name = "initial_date", nullable = false)
-    private LocalDate initialDate;
+    @Column(name = "start_date", nullable = false)
+    private LocalDate startDate;
+
+    @Column(name = "end_date", nullable = false)
+    private LocalDate endDate;
 
     @Column(name = "start_time", nullable = false)
-    private LocalDate startTime; 
+    private LocalTime startTime; 
 
     @Column(name = "end_time",nullable = false)
-    private LocalDate endTime;
+    private LocalTime endTime;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)

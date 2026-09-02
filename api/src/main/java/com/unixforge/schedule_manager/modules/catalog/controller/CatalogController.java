@@ -8,6 +8,7 @@ import com.unixforge.schedule_manager.modules.catalog.dto.CatalogResponseDTO;
 import com.unixforge.schedule_manager.modules.catalog.dto.CatalogStatusUpdateDTO;
 import com.unixforge.schedule_manager.modules.catalog.service.CatalogService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+@Tag(name = "Catalog", description = "API for managing catalogs")
 @RestController
 @RequestMapping("/v1/api/catalogs")
 @RequiredArgsConstructor

@@ -2,6 +2,7 @@ package com.unixforge.schedule_manager.modules.schedule.service;
 
 import java.util.List;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -9,11 +10,13 @@ import com.unixforge.schedule_manager.domain.enums.ScheduleStatus;
 import com.unixforge.schedule_manager.modules.catalog.model.Catalog;
 import com.unixforge.schedule_manager.modules.catalog.repository.CatalogRepository;
 import com.unixforge.schedule_manager.modules.schedule.dto.ScheduleCreateDTO;
+import com.unixforge.schedule_manager.modules.schedule.dto.ScheduleFilterDTO;
 import com.unixforge.schedule_manager.modules.schedule.dto.ScheduleResponseDTO;
 import com.unixforge.schedule_manager.modules.schedule.dto.ScheduleUpdateStatusDTO;
 import com.unixforge.schedule_manager.modules.schedule.mapper.ScheduleMapper;
 import com.unixforge.schedule_manager.modules.schedule.model.Schedule;
 import com.unixforge.schedule_manager.modules.schedule.repository.ScheduleRepository;
+import com.unixforge.schedule_manager.modules.schedule.specification.ScheduleSpecification;
 import com.unixforge.schedule_manager.modules.user.entity.User;
 import com.unixforge.schedule_manager.modules.user.repository.UserRepository;
 
@@ -81,6 +84,47 @@ public class ScheduleService {
         Schedule updatedSchedule = scheduleRepository.save(schedule);
 
         return scheduleMapper.toDTO(updatedSchedule);
+
+    }
+
+    @Transactional(readOnly = true)
+    public List<ScheduleResponseDTO> listSchedules(ScheduleFilterDTO requestDTO) {
+
+        Specification<ScheduleResponseDTO> spec = Specification.unrestricted();
+
+        if (requestDTO.startDate() != null) {
+            spec = spec.and(ScheduleSpecification.createdAfter(requestDTO.startDate()));
+        }
+
+        if (requestDTO.endDate() != null) {
+            spec = spec.and(ScheduleSpecification.createdBefore(requestDTO.endDate()));
+        }
+
+        if (requestDTO.startDate() != null && requestDTO.endDate() != null) {
+            spec = spec.and(ScheduleSpecification.createdAfterAndBefore(requestDTO.startDate(), requestDTO.endDate()));
+        }
+
+        if (requestDTO.status() != null) {
+            spec = spec.and(ScheduleSpecification.filterStatus(requestDTO.status()));
+        }
+
+        if (requestDTO.multipleStatus() != null && !requestDTO.multipleStatus().isEmpty()) {
+            spec = spec.and(ScheduleSpecification.filterMultipleStatus(requestDTO.multipleStatus()));
+        }
+
+        if (requestDTO.customerId() != null) {
+            spec = spec.and(ScheduleSpecification.filterCustomerId(requestDTO.customerId()));
+        }
+
+        if (requestDTO.professionalId() != null) {
+            spec = spec.and(ScheduleSpecification.filterProfessionalId(requestDTO.professionalId()));
+        }
+
+        if (requestDTO.catalogId() != null) {
+            spec = spec.and(ScheduleSpecification.filterCatalogId(requestDTO.catalogId()));
+        }
+
+        return scheduleRepository.findAll(spec);
 
     }
 

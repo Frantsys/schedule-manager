@@ -1,6 +1,7 @@
 package com.unixforge.schedule_manager.modules.schedule.dto;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
@@ -26,15 +27,19 @@ public class ScheduleCreateDTO {
     private String description;
 
     @NotBlank(message = "Data inicial é obrigatória")
-    @Future(message = "Data de inicial deve estar no futuro")
-    private LocalDate initialDate;
-
-    @NotBlank(message = "Data de início é obrigatória")
-    @Future(message = "Data de início deve estar no futuro")
-    private LocalDate startTime;
+    @Future(message = "Data inicial deve estar no futuro")
+    private LocalDate startDate;
 
     @NotBlank(message = "Data de conclusão é obrigatória")
     @Future(message = "Data de conclusão deve estar no futuro")
-    private LocalDate endTime;
+    private LocalDate endDate;
+
+    @NotBlank(message = "Horário de início é obrigatório")
+    @Future(message = "Horário de início deve estar no futuro")
+    private LocalTime startTime;
+
+    @NotBlank(message = "Horário de conclusão é obrigatório")
+    @Future(message = "Horário de conclusão deve estar no futuro")
+    private LocalTime endTime;
 
 }
