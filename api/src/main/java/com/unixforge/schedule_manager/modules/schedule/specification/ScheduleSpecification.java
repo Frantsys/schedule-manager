@@ -10,7 +10,7 @@ import com.unixforge.schedule_manager.modules.schedule.model.Schedule;
 
 public class ScheduleSpecification {
 
-    public static Specification<Schedule> createdAfter(LocalDate startDate){
+    public static Specification<Schedule> byCreatedAfter(LocalDate startDate){
         return (root, query, cb) -> {
             if (startDate == null) return cb.conjunction();
 
@@ -18,7 +18,7 @@ public class ScheduleSpecification {
         };
     }
 
-    public static Specification<Schedule> createdBefore(LocalDate endDate){
+    public static Specification<Schedule> byCreatedBefore(LocalDate endDate){
         return (root, query, cb) -> {
             if (endDate == null) return cb.conjunction();
 
@@ -26,7 +26,7 @@ public class ScheduleSpecification {
         };
     }
 
-    public static Specification<Schedule> createdAfterAndBefore(LocalDate startDate, LocalDate endDate){
+    public static Specification<Schedule> byCreatedBetween(LocalDate startDate, LocalDate endDate){
         return (root, query, cb) -> {
             if (startDate == null) return cb.conjunction();
             if (endDate == null) return cb.conjunction();
@@ -35,7 +35,7 @@ public class ScheduleSpecification {
         };
     }
 
-    public static Specification<Schedule> filterStatus(ScheduleStatus status) {
+    public static Specification<Schedule> byStatus(ScheduleStatus status) {
         return (root, query, cb) -> {
             if (status == null) return cb.conjunction();
 
@@ -43,7 +43,7 @@ public class ScheduleSpecification {
         };
     }
 
-    public static Specification<Schedule> filterMultipleStatus(List<ScheduleStatus> multipleStatus) {
+    public static Specification<Schedule> byStatuses(List<ScheduleStatus> multipleStatus) {
         return (root, query, cb) -> {
             if (multipleStatus == null || multipleStatus.isEmpty()) return cb.conjunction();
 
@@ -51,7 +51,7 @@ public class ScheduleSpecification {
         };
     }
 
-    public static Specification<Schedule> filterCustomerId(Long id){
+    public static Specification<Schedule> byCustomerId(Long id){
         return (root, query, cb) -> {
             if (id == null) return cb.conjunction();
 
@@ -59,7 +59,7 @@ public class ScheduleSpecification {
         };
     }
 
-    public static Specification<Schedule> filterProfessionalId(Long id){
+    public static Specification<Schedule> byProfessionalId(Long id){
         return (root, query, cb) -> {
             if (id == null) return cb.conjunction();
 
@@ -67,7 +67,7 @@ public class ScheduleSpecification {
         };
     }
 
-    public static Specification<Schedule> filterCatalogId(Long id){
+    public static Specification<Schedule> byCatalogId(Long id){
         return (root, query, cb) -> {
             if (id == null) return cb.conjunction();
 

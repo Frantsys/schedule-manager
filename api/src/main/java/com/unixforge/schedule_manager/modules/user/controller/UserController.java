@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.unixforge.schedule_manager.modules.user.dto.UserActivationDTO;
 import com.unixforge.schedule_manager.modules.user.dto.UserCreateDTO;
+import com.unixforge.schedule_manager.modules.user.dto.UserFilterDTO;
 import com.unixforge.schedule_manager.modules.user.dto.UserResponseDTO;
 import com.unixforge.schedule_manager.modules.user.dto.UserUpdateDTO;
 import com.unixforge.schedule_manager.modules.user.dto.UserUpdatePasswordDTO;
@@ -24,6 +25,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Tag(name = "User", description = "API for managing users")
 @RestController
@@ -34,8 +37,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping()
-    public ResponseEntity<UserResponseDTO> create(@RequestBody @Valid UserCreateDTO dto) {   
-        UserResponseDTO createdUser = userService.createUser(dto);
+    public ResponseEntity<UserResponseDTO> create(@RequestBody @Valid UserCreateDTO DTO) {   
+        UserResponseDTO createdUser = userService.createUser(DTO);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
@@ -55,25 +58,33 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> update(@PathVariable Long id, @RequestBody @Valid UserUpdateDTO dto) {
-        UserResponseDTO updatedUser = userService.updateById(id, dto);
+    public ResponseEntity<UserResponseDTO> update(@PathVariable Long id, @RequestBody @Valid UserUpdateDTO DTO) {
+        UserResponseDTO updatedUser = userService.updateById(id, DTO);
 
         return ResponseEntity.ok(updatedUser);
     }
 
     @PatchMapping("/{id}/activation")
-    public ResponseEntity<UserResponseDTO> updateStatus(@PathVariable Long id, @RequestBody @Valid UserActivationDTO dto) {
-        UserResponseDTO updatedUser = userService.updateActivationById(id, dto);
+    public ResponseEntity<UserResponseDTO> updateStatus(@PathVariable Long id, @RequestBody @Valid UserActivationDTO DTO) {
+        UserResponseDTO updatedUser = userService.updateActivationById(id, DTO);
 
         return ResponseEntity.ok(updatedUser);
     }
 
     @PatchMapping("/{id}/password")
-    public ResponseEntity<UserResponseDTO> changePasswordById(@PathVariable Long id, @RequestBody @Valid UserUpdatePasswordDTO dto) {
-        userService.changePassword(id, dto);
+    public ResponseEntity<UserResponseDTO> changePasswordById(@PathVariable Long id, @RequestBody @Valid UserUpdatePasswordDTO DTO) {
+        userService.changePassword(id, DTO);
 
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/filter")
+    public ResponseEntity<List<UserResponseDTO>> listUsers(@RequestParam UserFilterDTO filterDTO) {
+        List<UserResponseDTO> users = userService.listUsers(filterDTO);
+
+        return ResponseEntity.ok(users);
+    }
+    
     
 
 }

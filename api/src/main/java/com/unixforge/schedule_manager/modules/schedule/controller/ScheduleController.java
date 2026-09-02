@@ -1,6 +1,7 @@
 package com.unixforge.schedule_manager.modules.schedule.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unixforge.schedule_manager.modules.schedule.dto.ScheduleCreateDTO;
@@ -32,8 +33,8 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     @PostMapping
-    public ResponseEntity<ScheduleResponseDTO> create(@RequestBody @Valid ScheduleCreateDTO dto) {
-        ScheduleResponseDTO createdSchedule = scheduleService.create(dto);
+    public ResponseEntity<ScheduleResponseDTO> create(@RequestBody @Valid ScheduleCreateDTO DTO) {
+        ScheduleResponseDTO createdSchedule = scheduleService.create(DTO);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(createdSchedule);
     }
@@ -53,15 +54,15 @@ public class ScheduleController {
     }
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<ScheduleResponseDTO> updateStatus(@PathVariable Long id, @RequestBody @Valid ScheduleUpdateStatusDTO dto) {
-        ScheduleResponseDTO updatedSchedules = scheduleService.updateStatus(id, dto);
+    public ResponseEntity<ScheduleResponseDTO> updateStatus(@PathVariable Long id, @RequestBody @Valid ScheduleUpdateStatusDTO DTO) {
+        ScheduleResponseDTO updatedSchedules = scheduleService.updateStatus(id, DTO);
 
         return ResponseEntity.ok(updatedSchedules);
     }
 
     @GetMapping("/filter")
-    public ResponseEntity<List<ScheduleResponseDTO>> listSchedules(ScheduleFilterDTO filter) {
-        List<ScheduleResponseDTO> schedules = scheduleService.listSchedules(filter);
+    public ResponseEntity<List<ScheduleResponseDTO>> listSchedules(@RequestParam ScheduleFilterDTO filterDTO) {
+        List<ScheduleResponseDTO> schedules = scheduleService.listSchedules(filterDTO);
 
         return ResponseEntity.ok(schedules);
     }

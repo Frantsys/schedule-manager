@@ -93,35 +93,35 @@ public class ScheduleService {
         Specification<Schedule> spec = Specification.unrestricted();
 
         if (requestDTO.startDate() != null) {
-            spec = spec.and(ScheduleSpecification.createdAfter(requestDTO.startDate()));
+            spec = spec.and(ScheduleSpecification.byCreatedAfter(requestDTO.startDate()));
         }
 
         if (requestDTO.endDate() != null) {
-            spec = spec.and(ScheduleSpecification.createdBefore(requestDTO.endDate()));
+            spec = spec.and(ScheduleSpecification.byCreatedBefore(requestDTO.endDate()));
         }
 
         if (requestDTO.startDate() != null && requestDTO.endDate() != null) {
-            spec = spec.and(ScheduleSpecification.createdAfterAndBefore(requestDTO.startDate(), requestDTO.endDate()));
+            spec = spec.and(ScheduleSpecification.byCreatedBetween(requestDTO.startDate(), requestDTO.endDate()));
         }
 
         if (requestDTO.status() != null) {
-            spec = spec.and(ScheduleSpecification.filterStatus(requestDTO.status()));
+            spec = spec.and(ScheduleSpecification.byStatus(requestDTO.status()));
         }
 
         if (requestDTO.multipleStatus() != null && !requestDTO.multipleStatus().isEmpty()) {
-            spec = spec.and(ScheduleSpecification.filterMultipleStatus(requestDTO.multipleStatus()));
+            spec = spec.and(ScheduleSpecification.byStatuses(requestDTO.multipleStatus()));
         }
 
         if (requestDTO.customerId() != null) {
-            spec = spec.and(ScheduleSpecification.filterCustomerId(requestDTO.customerId()));
+            spec = spec.and(ScheduleSpecification.byCustomerId(requestDTO.customerId()));
         }
 
         if (requestDTO.professionalId() != null) {
-            spec = spec.and(ScheduleSpecification.filterProfessionalId(requestDTO.professionalId()));
+            spec = spec.and(ScheduleSpecification.byProfessionalId(requestDTO.professionalId()));
         }
 
         if (requestDTO.catalogId() != null) {
-            spec = spec.and(ScheduleSpecification.filterCatalogId(requestDTO.catalogId()));
+            spec = spec.and(ScheduleSpecification.byCatalogId(requestDTO.catalogId()));
         }
 
         return scheduleRepository.findAll(spec)

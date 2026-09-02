@@ -31,8 +31,8 @@ public class CatalogController {
     private final CatalogService catalogService;
 
     @PostMapping
-    public ResponseEntity<CatalogResponseDTO> create(@RequestBody @Valid CatalogCreateDTO dto) {
-        CatalogResponseDTO createdCatalog = catalogService.create(dto);
+    public ResponseEntity<CatalogResponseDTO> create(@RequestBody @Valid CatalogCreateDTO DTO) {
+        CatalogResponseDTO createdCatalog = catalogService.create(DTO);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCatalog);
     }
@@ -52,8 +52,8 @@ public class CatalogController {
     }
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<CatalogResponseDTO> updateStatusById(@PathVariable Long id, @RequestBody @Valid CatalogStatusUpdateDTO dto) {
-        CatalogResponseDTO catalog = catalogService.updateStatusById(id, dto);
+    public ResponseEntity<CatalogResponseDTO> updateStatusById(@PathVariable Long id, @RequestBody @Valid CatalogStatusUpdateDTO DTO) {
+        CatalogResponseDTO catalog = catalogService.updateStatusById(id, DTO);
 
         return ResponseEntity.ok(catalog);
     }

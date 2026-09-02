@@ -2,18 +2,21 @@ package com.unixforge.schedule_manager.modules.user.service;
 
 import java.util.List;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.unixforge.schedule_manager.modules.user.dto.UserActivationDTO;
 import com.unixforge.schedule_manager.modules.user.dto.UserCreateDTO;
+import com.unixforge.schedule_manager.modules.user.dto.UserFilterDTO;
 import com.unixforge.schedule_manager.modules.user.dto.UserResponseDTO;
 import com.unixforge.schedule_manager.modules.user.dto.UserUpdateDTO;
 import com.unixforge.schedule_manager.modules.user.dto.UserUpdatePasswordDTO;
 import com.unixforge.schedule_manager.modules.user.entity.User;
 import com.unixforge.schedule_manager.modules.user.mapper.UserMapper;
 import com.unixforge.schedule_manager.modules.user.repository.UserRepository;
+import com.unixforge.schedule_manager.modules.user.specification.UserSpecification;
 
 import lombok.RequiredArgsConstructor;
 
@@ -100,6 +103,40 @@ public class UserService {
 
         return userMapper.toDTO(user);
 
+    }
+
+    @Transactional(readOnly = true)
+    public List<UserResponseDTO> listUsers(UserFilterDTO requestDTO) {
+        Specification<User> spec = Specification.unrestricted();
+
+        if(requestDTO.name() != null) {
+            spec = spec.and(UserSpecification.byName(requestDTO.name()));
+        }
+
+        if(requestDTO.role() != null) {
+            spec = spec.and(UserSpecification.byRole(requestDTO.role()));
+        }
+
+        if(requestDTO.roles() != null && !requestDTO.roles().isEmpty()) {
+            spec = spec.and(UserSpecification.byRoles(requestDTO.roles()));
+        }
+
+        if(requestDTO.category() != null && requestDTO.category().isBlank()) {
+            spec = spec.and(UserSpecification.byCategory(requestDTO.category()));
+        }
+
+        if(requestDTO.isActive() != null) {
+            spec = spec.and(UserSpecification.byActivation(requestDTO.isActive()));
+        }
+
+        if(requestDTO.createdAt() != null) {
+            spec = spec.and(UserSpecification.byCreation(requestDTO.createdAt()));
+        }
+
+        return userRepository.findAll(spec)
+            .stream()
+            .map(userMapper::toDTO)
+            .toList();
     }
 
 }
