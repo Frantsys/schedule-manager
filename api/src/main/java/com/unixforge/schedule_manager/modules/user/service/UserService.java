@@ -129,13 +129,16 @@ public class UserService {
             spec = spec.and(UserSpecification.byActivation(requestDTO.isActive()));
         }
 
-        // Refazer a lógica do byCreationGreater e byCreationLess
-        if(requestDTO.createdAt() != null) {
-            spec = spec.and(UserSpecification.byCreationGreater(requestDTO.createdAt()));
+        if(requestDTO.startDate() != null && requestDTO.endDate() == null) {
+            spec = spec.and(UserSpecification.byCreatedAfter(requestDTO.startDate()));
         }
 
-        if(requestDTO.createdAt() != null) {
-            spec = spec.and(UserSpecification.byCreationLess(requestDTO.createdAt()));
+        if(requestDTO.startDate() == null && requestDTO.endDate() != null) {
+            spec = spec.and(UserSpecification.byCreatedBefore(requestDTO.endDate()));
+        }
+
+        if(requestDTO.startDate() != null && requestDTO.endDate() != null) {
+            spec = spec.and(UserSpecification.byCreatedBetween(requestDTO.startDate(), requestDTO.endDate()));
         }
 
         return userRepository.findAll(spec)

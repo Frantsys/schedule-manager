@@ -9,8 +9,10 @@ public record ScheduleFilterDTO(
     Long catalog,
     Long professional,
     Long customer,
-    LocalDate startDate,
-    LocalDate endDate,
     ScheduleStatus status,
-    List<ScheduleStatus> multipleStatus
+    List<ScheduleStatus> multipleStatus,
+    LocalDate startDateSchedule,
+    LocalDate endDateSchedule,
+    LocalDate startDate,
+    LocalDate endDate
 ) {}

@@ -1,11 +1,13 @@
 package com.unixforge.schedule_manager.modules.catalog.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public record CatalogFilterDTO(
     Long professional,
     String name,
-    Double price,
+    Double minPrice,
+    Double maxPrice,
     Boolean isActive,
-    LocalDateTime createdAt
+    LocalDate startDate,
+    LocalDate endDate
 ) {}

@@ -84,26 +84,28 @@ public class CatalogService {
             spec = spec.and(CatalogSpecification.byName(requestDTO.name()));
         }
 
-        // Refazer a lógica do byPriceGreater e byPriceLess
-        if(requestDTO.price() != null) {
-            spec = spec.and(CatalogSpecification.byPriceGreater(requestDTO.price()));
+        if(requestDTO.minPrice() != null && requestDTO.maxPrice() == null) {
+            spec = spec.and(CatalogSpecification.byPriceGreater(requestDTO.minPrice()));
         }
 
-        if(requestDTO.price() != null) {
-            spec = spec.and(CatalogSpecification.byPriceLess(requestDTO.price()));
+        if(requestDTO.minPrice() == null && requestDTO.maxPrice() != null) {
+            spec = spec.and(CatalogSpecification.byPriceLess(requestDTO.maxPrice()));
         }
 
         if(requestDTO.isActive() != null) {
             spec = spec.and(CatalogSpecification.byActivation(requestDTO.isActive()));
         }
 
-        // Refazer a lógica do byCreationGreater e byCreationLess
-        if(requestDTO.createdAt() != null) {
-            spec = spec.and(CatalogSpecification.byCreationGreater(requestDTO.createdAt()));
+        if(requestDTO.startDate() != null && requestDTO.endDate() == null) {
+            spec = spec.and(CatalogSpecification.byCreatedAfter(requestDTO.startDate()));
         }
 
-        if(requestDTO.createdAt() != null) {
-            spec = spec.and(CatalogSpecification.byCreationLess(requestDTO.createdAt()));
+        if(requestDTO.startDate() == null && requestDTO.endDate() != null) {
+            spec = spec.and(CatalogSpecification.byCreatedBefore(requestDTO.endDate()));
+        }
+
+        if(requestDTO.startDate() != null && requestDTO.endDate() != null) {
+            spec = spec.and(CatalogSpecification.byCreatedBetween(requestDTO.startDate(), requestDTO.endDate()));
         }
 
         return catalogRepository.findAll(spec)

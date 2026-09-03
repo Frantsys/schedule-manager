@@ -1,6 +1,8 @@
 package com.unixforge.schedule_manager.modules.user.specification;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
@@ -50,21 +52,36 @@ public class UserSpecification {
         };
     }
 
-    public static Specification<User> byCreationLess(LocalDateTime createdAt) {
+    public static Specification<User> byCreatedAfter(LocalDate startDate) {
         return (root, query, cb) -> {
-            if(createdAt == null) return cb.conjunction();
+            if(startDate == null) return cb.conjunction();
 
-            return cb.lessThanOrEqualTo(root.get("createdAt"), createdAt);
+            LocalDateTime startDateTime =  startDate.atStartOfDay();
+
+            return cb.lessThanOrEqualTo(root.get("createdAt"), startDateTime);
         };
     }
 
-    public static Specification<User> byCreationGreater(LocalDateTime createdAt) {
+    public static Specification<User> byCreatedBefore(LocalDate endDate) {
         return (root, query, cb) -> {
-            if(createdAt == null) return cb.conjunction();
+            if(endDate == null) return cb.conjunction();
 
-            return cb.greaterThanOrEqualTo(root.get("createdAt"), createdAt);
+            LocalDateTime endDateTime = endDate.atTime(LocalTime.MAX);
+
+            return cb.greaterThanOrEqualTo(root.get("createdAt"), endDateTime);
         };
     }
 
+    public static Specification<User> byCreatedBetween(LocalDate startDate, LocalDate endDate){
+        return (root, query, cb) -> {
+            if (startDate == null) return cb.conjunction();
+            if (endDate == null) return cb.conjunction();
+
+            LocalDateTime startDateTime = startDate.atStartOfDay();
+            LocalDateTime endDateTime = endDate.atTime(LocalTime.MAX);
+
+            return cb.between(root.get("createdAt"), startDateTime, endDateTime);
+        };
+    }
 
 }

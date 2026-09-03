@@ -92,18 +92,6 @@ public class ScheduleService {
 
         Specification<Schedule> spec = Specification.unrestricted();
 
-        if (requestDTO.startDate() != null) {
-            spec = spec.and(ScheduleSpecification.byCreatedAfter(requestDTO.startDate()));
-        }
-
-        if (requestDTO.endDate() != null) {
-            spec = spec.and(ScheduleSpecification.byCreatedBefore(requestDTO.endDate()));
-        }
-
-        if (requestDTO.startDate() != null && requestDTO.endDate() != null) {
-            spec = spec.and(ScheduleSpecification.byCreatedBetween(requestDTO.startDate(), requestDTO.endDate()));
-        }
-
         if (requestDTO.status() != null) {
             spec = spec.and(ScheduleSpecification.byStatus(requestDTO.status()));
         }
@@ -122,6 +110,18 @@ public class ScheduleService {
 
         if (requestDTO.catalog() != null) {
             spec = spec.and(ScheduleSpecification.byCatalogId(requestDTO.catalog()));
+        }
+
+        if(requestDTO.startDate() != null && requestDTO.endDate() == null) {
+            spec = spec.and(ScheduleSpecification.byCreatedAfter(requestDTO.startDate()));
+        }
+
+        if(requestDTO.startDate() == null && requestDTO.endDate() != null) {
+            spec = spec.and(ScheduleSpecification.byCreatedBefore(requestDTO.endDate()));
+        }
+
+        if(requestDTO.startDate() != null && requestDTO.endDate() != null) {
+            spec = spec.and(ScheduleSpecification.byCreatedBetween(requestDTO.startDate(), requestDTO.endDate()));
         }
 
         return scheduleRepository.findAll(spec)

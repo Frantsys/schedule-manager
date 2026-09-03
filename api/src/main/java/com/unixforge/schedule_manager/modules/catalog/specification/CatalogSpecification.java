@@ -1,6 +1,8 @@
 package com.unixforge.schedule_manager.modules.catalog.specification;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import org.springframework.data.jpa.domain.Specification;
 
@@ -24,19 +26,19 @@ public class CatalogSpecification {
         };
     }
 
-    public static Specification<Catalog> byPriceGreater(Double price) {
+    public static Specification<Catalog> byPriceGreater(Double minPrice) {
         return (root, query, cb) -> {
-            if (price == null) return cb.conjunction();
+            if (minPrice == null) return cb.conjunction();
 
-            return cb.greaterThanOrEqualTo(root.get("price"), price);
+            return cb.greaterThanOrEqualTo(root.get("price"), minPrice);
         };
     }
 
-    public static Specification<Catalog> byPriceLess(Double price) {
+    public static Specification<Catalog> byPriceLess(Double maxPrice) {
         return (root, query, cb) -> {
-            if (price == null) return cb.conjunction();
+            if (maxPrice == null) return cb.conjunction();
 
-            return cb.lessThanOrEqualTo(root.get("price"), price);
+            return cb.lessThanOrEqualTo(root.get("price"), maxPrice);
         };
     }
 
@@ -48,19 +50,35 @@ public class CatalogSpecification {
         };
     }
 
-    public static Specification<Catalog> byCreationLess(LocalDateTime createdAt) {
+    public static Specification<Catalog> byCreatedAfter(LocalDate startDate) {
         return (root, query, cb) -> {
-            if(createdAt == null) return cb.conjunction();
+            if(startDate == null) return cb.conjunction();
 
-            return cb.lessThanOrEqualTo(root.get("createdAt"), createdAt);
+            LocalDateTime startDateTime = startDate.atStartOfDay();
+
+            return cb.lessThanOrEqualTo(root.get("createdAt"), startDateTime);
         };
     }
 
-    public static Specification<Catalog> byCreationGreater(LocalDateTime createdAt) {
+    public static Specification<Catalog> byCreatedBefore(LocalDate endDate) {
         return (root, query, cb) -> {
-            if(createdAt == null) return cb.conjunction();
+            if(endDate == null) return cb.conjunction();
 
-            return cb.greaterThanOrEqualTo(root.get("createdAt"), createdAt);
+            LocalDateTime endDateTime = endDate.atTime(LocalTime.MAX);
+
+            return cb.greaterThanOrEqualTo(root.get("createdAt"), endDateTime);
+        };
+    }
+
+    public static Specification<Catalog> byCreatedBetween(LocalDate startDate, LocalDate endDate){
+        return (root, query, cb) -> {
+            if (startDate == null) return cb.conjunction();
+            if (endDate == null) return cb.conjunction();
+
+            LocalDateTime startDateTime = startDate.atStartOfDay();
+            LocalDateTime endDateTime = endDate.atTime(LocalTime.MAX);
+
+            return cb.between(root.get("createdAt"), startDateTime, endDateTime);
         };
     }
 

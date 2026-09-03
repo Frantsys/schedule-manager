@@ -1,6 +1,6 @@
 package com.unixforge.schedule_manager.modules.user.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.unixforge.schedule_manager.modules.user.entity.UserRole;
@@ -11,5 +11,6 @@ public record UserFilterDTO(
     List<UserRole> roles,
     String category,
     Boolean isActive,
-    LocalDateTime createdAt
+    LocalDate startDate,
+    LocalDate endDate
 ) {}
