@@ -112,16 +112,16 @@ public class ScheduleService {
             spec = spec.and(ScheduleSpecification.byStatuses(requestDTO.multipleStatus()));
         }
 
-        if (requestDTO.customerId() != null) {
-            spec = spec.and(ScheduleSpecification.byCustomerId(requestDTO.customerId()));
+        if (requestDTO.customer() != null) {
+            spec = spec.and(ScheduleSpecification.byCustomerId(requestDTO.customer()));
         }
 
-        if (requestDTO.professionalId() != null) {
-            spec = spec.and(ScheduleSpecification.byProfessionalId(requestDTO.professionalId()));
+        if (requestDTO.professional() != null) {
+            spec = spec.and(ScheduleSpecification.byProfessionalId(requestDTO.professional()));
         }
 
-        if (requestDTO.catalogId() != null) {
-            spec = spec.and(ScheduleSpecification.byCatalogId(requestDTO.catalogId()));
+        if (requestDTO.catalog() != null) {
+            spec = spec.and(ScheduleSpecification.byCatalogId(requestDTO.catalog()));
         }
 
         return scheduleRepository.findAll(spec)

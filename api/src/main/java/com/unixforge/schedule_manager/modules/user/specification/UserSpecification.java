@@ -50,11 +50,19 @@ public class UserSpecification {
         };
     }
 
-    public static Specification<User> byCreation(LocalDateTime createdAt) {
+    public static Specification<User> byCreationLess(LocalDateTime createdAt) {
         return (root, query, cb) -> {
             if(createdAt == null) return cb.conjunction();
 
             return cb.lessThanOrEqualTo(root.get("createdAt"), createdAt);
+        };
+    }
+
+    public static Specification<User> byCreationGreater(LocalDateTime createdAt) {
+        return (root, query, cb) -> {
+            if(createdAt == null) return cb.conjunction();
+
+            return cb.greaterThanOrEqualTo(root.get("createdAt"), createdAt);
         };
     }
 

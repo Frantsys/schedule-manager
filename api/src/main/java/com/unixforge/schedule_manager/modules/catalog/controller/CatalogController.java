@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unixforge.schedule_manager.modules.catalog.dto.CatalogCreateDTO;
+import com.unixforge.schedule_manager.modules.catalog.dto.CatalogFilterDTO;
 import com.unixforge.schedule_manager.modules.catalog.dto.CatalogResponseDTO;
 import com.unixforge.schedule_manager.modules.catalog.dto.CatalogStatusUpdateDTO;
 import com.unixforge.schedule_manager.modules.catalog.service.CatalogService;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Tag(name = "Catalog", description = "API for managing catalogs")
 @RestController
@@ -58,8 +61,12 @@ public class CatalogController {
         return ResponseEntity.ok(catalog);
     }
     
+    @GetMapping("/filter")
+    public ResponseEntity<List<CatalogResponseDTO>> listCatalogs(@RequestParam CatalogFilterDTO filterDTO) {
+        List<CatalogResponseDTO> catalogs = catalogService.listCatalogs(filterDTO);
 
-
+        return ResponseEntity.ok(catalogs);
+    }
     
     
 

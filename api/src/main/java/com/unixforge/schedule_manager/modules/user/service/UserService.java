@@ -129,8 +129,13 @@ public class UserService {
             spec = spec.and(UserSpecification.byActivation(requestDTO.isActive()));
         }
 
+        // Refazer a lógica do byCreationGreater e byCreationLess
         if(requestDTO.createdAt() != null) {
-            spec = spec.and(UserSpecification.byCreation(requestDTO.createdAt()));
+            spec = spec.and(UserSpecification.byCreationGreater(requestDTO.createdAt()));
+        }
+
+        if(requestDTO.createdAt() != null) {
+            spec = spec.and(UserSpecification.byCreationLess(requestDTO.createdAt()));
         }
 
         return userRepository.findAll(spec)

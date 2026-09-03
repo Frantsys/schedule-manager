@@ -6,9 +6,9 @@ import java.util.List;
 import com.unixforge.schedule_manager.domain.enums.ScheduleStatus;
 
 public record ScheduleFilterDTO(
-    Long catalogId,
-    Long professionalId,
-    Long customerId,
+    Long catalog,
+    Long professional,
+    Long customer,
     LocalDate startDate,
     LocalDate endDate,
     ScheduleStatus status,

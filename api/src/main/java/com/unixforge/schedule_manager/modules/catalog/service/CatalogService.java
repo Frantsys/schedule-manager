@@ -2,15 +2,18 @@ package com.unixforge.schedule_manager.modules.catalog.service;
 
 import java.util.List;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.unixforge.schedule_manager.modules.catalog.dto.CatalogCreateDTO;
+import com.unixforge.schedule_manager.modules.catalog.dto.CatalogFilterDTO;
 import com.unixforge.schedule_manager.modules.catalog.dto.CatalogResponseDTO;
 import com.unixforge.schedule_manager.modules.catalog.dto.CatalogStatusUpdateDTO;
 import com.unixforge.schedule_manager.modules.catalog.mapper.CatalogMapper;
 import com.unixforge.schedule_manager.modules.catalog.model.Catalog;
 import com.unixforge.schedule_manager.modules.catalog.repository.CatalogRepository;
+import com.unixforge.schedule_manager.modules.catalog.specification.CatalogSpecification;
 import com.unixforge.schedule_manager.modules.user.entity.User;
 import com.unixforge.schedule_manager.modules.user.repository.UserRepository;
 
@@ -67,6 +70,46 @@ public class CatalogService {
         Catalog updatedCatalog = catalogRepository.save(catalog);
 
         return catalogMapper.toDTO(updatedCatalog);
+    }
+
+    @Transactional(readOnly = true)
+    public List<CatalogResponseDTO> listCatalogs(CatalogFilterDTO requestDTO) {
+        Specification<Catalog> spec = Specification.unrestricted();
+
+        if(requestDTO.professional() != null) {
+            spec = spec.and(CatalogSpecification.byProfessionalId(requestDTO.professional()));
+        }
+
+        if(requestDTO.name() != null) {
+            spec = spec.and(CatalogSpecification.byName(requestDTO.name()));
+        }
+
+        // Refazer a lógica do byPriceGreater e byPriceLess
+        if(requestDTO.price() != null) {
+            spec = spec.and(CatalogSpecification.byPriceGreater(requestDTO.price()));
+        }
+
+        if(requestDTO.price() != null) {
+            spec = spec.and(CatalogSpecification.byPriceLess(requestDTO.price()));
+        }
+
+        if(requestDTO.isActive() != null) {
+            spec = spec.and(CatalogSpecification.byActivation(requestDTO.isActive()));
+        }
+
+        // Refazer a lógica do byCreationGreater e byCreationLess
+        if(requestDTO.createdAt() != null) {
+            spec = spec.and(CatalogSpecification.byCreationGreater(requestDTO.createdAt()));
+        }
+
+        if(requestDTO.createdAt() != null) {
+            spec = spec.and(CatalogSpecification.byCreationLess(requestDTO.createdAt()));
+        }
+
+        return catalogRepository.findAll(spec)
+            .stream()
+            .map(catalogMapper::toDTO)
+            .toList();
     }
 
 }
