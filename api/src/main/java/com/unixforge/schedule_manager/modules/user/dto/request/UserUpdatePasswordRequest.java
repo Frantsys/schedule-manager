@@ -1,4 +1,4 @@
-package com.unixforge.schedule_manager.modules.user.dto;
+package com.unixforge.schedule_manager.modules.user.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserUpdatePasswordDTO {
+public class UserUpdatePasswordRequest {
 
     @NotBlank(message = "Senha atual é obrigatória")
     private String currentPassword;

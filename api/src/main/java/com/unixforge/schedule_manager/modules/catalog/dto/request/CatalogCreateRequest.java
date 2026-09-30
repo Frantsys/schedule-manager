@@ -1,4 +1,4 @@
-package com.unixforge.schedule_manager.modules.catalog.dto;
+package com.unixforge.schedule_manager.modules.catalog.dto.request;
 
 import java.time.Duration;
 
@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CatalogCreateDTO {
+public class CatalogCreateRequest {
 
     @NotNull(message = "Profissional é obrigatório")
     private Long professionalId;

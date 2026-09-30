@@ -1,4 +1,4 @@
-package com.unixforge.schedule_manager.modules.schedule.dto;
+package com.unixforge.schedule_manager.modules.schedule.dto.response;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,7 +17,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ScheduleResponseDTO {
+public class ScheduleResponse {
     
     private UserSummaryDTO customer;
     private UserSummaryDTO professional;

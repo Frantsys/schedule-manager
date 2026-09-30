@@ -1,4 +1,4 @@
-package com.unixforge.schedule_manager.modules.schedule.dto;
+package com.unixforge.schedule_manager.modules.schedule.dto.request;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -12,7 +12,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ScheduleCreateDTO {
+public class ScheduleCreateRequest {
     
     @NotNull(message = "Cliente é obrigatório")
     private Long customerId;

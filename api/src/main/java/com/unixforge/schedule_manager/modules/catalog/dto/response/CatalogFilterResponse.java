@@ -1,8 +1,8 @@
-package com.unixforge.schedule_manager.modules.catalog.dto;
+package com.unixforge.schedule_manager.modules.catalog.dto.response;
 
 import java.time.LocalDate;
 
-public record CatalogFilterDTO(
+public record CatalogFilterResponse(
     Long professional,
     String name,
     Double minPrice,

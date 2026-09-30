@@ -3,12 +3,12 @@ package com.unixforge.schedule_manager.modules.user.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.unixforge.schedule_manager.modules.user.dto.UserActivationDTO;
-import com.unixforge.schedule_manager.modules.user.dto.UserCreateDTO;
-import com.unixforge.schedule_manager.modules.user.dto.UserFilterDTO;
-import com.unixforge.schedule_manager.modules.user.dto.UserResponseDTO;
-import com.unixforge.schedule_manager.modules.user.dto.UserUpdateDTO;
-import com.unixforge.schedule_manager.modules.user.dto.UserUpdatePasswordDTO;
+import com.unixforge.schedule_manager.modules.user.dto.request.UserCreateRequest;
+import com.unixforge.schedule_manager.modules.user.dto.request.UserUpdateActivationRequest;
+import com.unixforge.schedule_manager.modules.user.dto.request.UserUpdatePasswordRequest;
+import com.unixforge.schedule_manager.modules.user.dto.request.UserUpdateRequest;
+import com.unixforge.schedule_manager.modules.user.dto.response.UserFilterResponse;
+import com.unixforge.schedule_manager.modules.user.dto.response.UserResponse;
 import com.unixforge.schedule_manager.modules.user.service.UserService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -37,50 +37,50 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping()
-    public ResponseEntity<UserResponseDTO> create(@RequestBody @Valid UserCreateDTO DTO) {   
-        UserResponseDTO createdUser = userService.createUser(DTO);
+    public ResponseEntity<UserResponse> create(@RequestBody @Valid UserCreateRequest DTO) {   
+        UserResponse createdUser = userService.createUser(DTO);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> findById(@PathVariable Long id) {
-        UserResponseDTO user = userService.findById(id);
+    public ResponseEntity<UserResponse> findById(@PathVariable Long id) {
+        UserResponse user = userService.findById(id);
 
         return ResponseEntity.ok(user);
     }
 
     @GetMapping()
-    public ResponseEntity<List<UserResponseDTO>> findAll() {
-        List<UserResponseDTO> users = userService.findAll();
+    public ResponseEntity<List<UserResponse>> findAll() {
+        List<UserResponse> users = userService.findAll();
 
         return ResponseEntity.ok(users);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> update(@PathVariable Long id, @RequestBody @Valid UserUpdateDTO DTO) {
-        UserResponseDTO updatedUser = userService.updateById(id, DTO);
+    public ResponseEntity<UserResponse> update(@PathVariable Long id, @RequestBody @Valid UserUpdateRequest DTO) {
+        UserResponse updatedUser = userService.updateById(id, DTO);
 
         return ResponseEntity.ok(updatedUser);
     }
 
     @PatchMapping("/{id}/activation")
-    public ResponseEntity<UserResponseDTO> updateStatus(@PathVariable Long id, @RequestBody @Valid UserActivationDTO DTO) {
-        UserResponseDTO updatedUser = userService.updateActivationById(id, DTO);
+    public ResponseEntity<UserResponse> updateStatus(@PathVariable Long id, @RequestBody @Valid UserUpdateActivationRequest DTO) {
+        UserResponse updatedUser = userService.updateActivationById(id, DTO);
 
         return ResponseEntity.ok(updatedUser);
     }
 
     @PatchMapping("/{id}/password")
-    public ResponseEntity<UserResponseDTO> changePasswordById(@PathVariable Long id, @RequestBody @Valid UserUpdatePasswordDTO DTO) {
+    public ResponseEntity<UserResponse> changePasswordById(@PathVariable Long id, @RequestBody @Valid UserUpdatePasswordRequest DTO) {
         userService.changePassword(id, DTO);
 
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/filter")
-    public ResponseEntity<List<UserResponseDTO>> listUsers(@RequestParam UserFilterDTO filterDTO) {
-        List<UserResponseDTO> users = userService.listUsers(filterDTO);
+    public ResponseEntity<List<UserResponse>> listUsers(@RequestParam UserFilterResponse filterDTO) {
+        List<UserResponse> users = userService.listUsers(filterDTO);
 
         return ResponseEntity.ok(users);
     }

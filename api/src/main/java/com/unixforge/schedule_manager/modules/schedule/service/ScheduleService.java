@@ -9,10 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.unixforge.schedule_manager.domain.enums.ScheduleStatus;
 import com.unixforge.schedule_manager.modules.catalog.model.Catalog;
 import com.unixforge.schedule_manager.modules.catalog.repository.CatalogRepository;
-import com.unixforge.schedule_manager.modules.schedule.dto.ScheduleCreateDTO;
-import com.unixforge.schedule_manager.modules.schedule.dto.ScheduleFilterDTO;
-import com.unixforge.schedule_manager.modules.schedule.dto.ScheduleResponseDTO;
-import com.unixforge.schedule_manager.modules.schedule.dto.ScheduleUpdateStatusDTO;
+import com.unixforge.schedule_manager.modules.schedule.dto.request.ScheduleCreateRequest;
+import com.unixforge.schedule_manager.modules.schedule.dto.request.ScheduleUpdateActivationRequest;
+import com.unixforge.schedule_manager.modules.schedule.dto.response.ScheduleFilterResponse;
+import com.unixforge.schedule_manager.modules.schedule.dto.response.ScheduleResponse;
 import com.unixforge.schedule_manager.modules.schedule.mapper.ScheduleMapper;
 import com.unixforge.schedule_manager.modules.schedule.model.Schedule;
 import com.unixforge.schedule_manager.modules.schedule.repository.ScheduleRepository;
@@ -32,7 +32,7 @@ public class ScheduleService {
     private final ScheduleMapper scheduleMapper;
 
     @Transactional
-    public ScheduleResponseDTO create(ScheduleCreateDTO requestDTO) {
+    public ScheduleResponse create(ScheduleCreateRequest requestDTO) {
 
         User customer = userRepository.findById(requestDTO.getCustomerId())
             .orElseThrow(() -> new RuntimeException("Cliente não encontrado com ID " + requestDTO.getCustomerId()));
@@ -56,7 +56,7 @@ public class ScheduleService {
     }
 
     @Transactional(readOnly = true)
-    public List<ScheduleResponseDTO> findAll() {
+    public List<ScheduleResponse> findAll() {
         return scheduleRepository.findAll()
             .stream()
             .map(scheduleMapper::toDTO)
@@ -64,7 +64,7 @@ public class ScheduleService {
     }
 
     @Transactional(readOnly = true)
-    public ScheduleResponseDTO findById(Long id) {
+    public ScheduleResponse findById(Long id) {
 
         Schedule schedule = scheduleRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Agendamento não foi encontrado com ID: " + id));
@@ -74,7 +74,7 @@ public class ScheduleService {
     }
 
     @Transactional
-    public ScheduleResponseDTO updateStatus(Long id, ScheduleUpdateStatusDTO requestDTO) {
+    public ScheduleResponse updateStatus(Long id, ScheduleUpdateActivationRequest requestDTO) {
         
         Schedule schedule = scheduleRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Agendamento não foi encontrado com ID: " + id));
@@ -88,7 +88,7 @@ public class ScheduleService {
     }
 
     @Transactional(readOnly = true)
-    public List<ScheduleResponseDTO> listSchedules(ScheduleFilterDTO requestDTO) {
+    public List<ScheduleResponse> listSchedules(ScheduleFilterResponse requestDTO) {
 
         Specification<Schedule> spec = Specification.unrestricted();
 

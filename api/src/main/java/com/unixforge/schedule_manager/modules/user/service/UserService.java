@@ -7,12 +7,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.unixforge.schedule_manager.modules.user.dto.UserActivationDTO;
-import com.unixforge.schedule_manager.modules.user.dto.UserCreateDTO;
-import com.unixforge.schedule_manager.modules.user.dto.UserFilterDTO;
-import com.unixforge.schedule_manager.modules.user.dto.UserResponseDTO;
-import com.unixforge.schedule_manager.modules.user.dto.UserUpdateDTO;
-import com.unixforge.schedule_manager.modules.user.dto.UserUpdatePasswordDTO;
+import com.unixforge.schedule_manager.modules.user.dto.request.UserCreateRequest;
+import com.unixforge.schedule_manager.modules.user.dto.request.UserUpdateActivationRequest;
+import com.unixforge.schedule_manager.modules.user.dto.request.UserUpdatePasswordRequest;
+import com.unixforge.schedule_manager.modules.user.dto.request.UserUpdateRequest;
+import com.unixforge.schedule_manager.modules.user.dto.response.UserFilterResponse;
+import com.unixforge.schedule_manager.modules.user.dto.response.UserResponse;
 import com.unixforge.schedule_manager.modules.user.entity.User;
 import com.unixforge.schedule_manager.modules.user.mapper.UserMapper;
 import com.unixforge.schedule_manager.modules.user.repository.UserRepository;
@@ -29,7 +29,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     
     @Transactional
-    public UserResponseDTO createUser(UserCreateDTO requestDTO) {
+    public UserResponse createUser(UserCreateRequest requestDTO) {
         
         User user = userMapper.toEntity(requestDTO);
         
@@ -43,7 +43,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserResponseDTO findById(Long id) {
+    public UserResponse findById(Long id) {
 
         User user = userRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Usuário não encontrado com ID " + id));
@@ -53,7 +53,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public List<UserResponseDTO> findAll() {
+    public List<UserResponse> findAll() {
         return userRepository.findAll()
             .stream()
             .map(userMapper::toDTO)
@@ -61,7 +61,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserResponseDTO updateById(Long id, UserUpdateDTO requestDTO) {
+    public UserResponse updateById(Long id, UserUpdateRequest requestDTO) {
 
         User oldUser = userRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Usuário não encontrado com ID " + id));
@@ -76,7 +76,7 @@ public class UserService {
     }
 
     @Transactional
-    public void changePassword(Long id, UserUpdatePasswordDTO requestDTO) {
+    public void changePassword(Long id, UserUpdatePasswordRequest requestDTO) {
 
         User user = userRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Usuário não foi encontrado com ID " +  id));
@@ -92,7 +92,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserResponseDTO updateActivationById(Long id, UserActivationDTO requestDTO) {
+    public UserResponse updateActivationById(Long id, UserUpdateActivationRequest requestDTO) {
 
         User user = userRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Usuário não foi encontrado com ID " +  id));
@@ -106,7 +106,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public List<UserResponseDTO> listUsers(UserFilterDTO requestDTO) {
+    public List<UserResponse> listUsers(UserFilterResponse requestDTO) {
         Specification<User> spec = Specification.unrestricted();
 
         if(requestDTO.name() != null) {

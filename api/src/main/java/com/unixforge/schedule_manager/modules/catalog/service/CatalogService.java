@@ -6,10 +6,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.unixforge.schedule_manager.modules.catalog.dto.CatalogCreateDTO;
-import com.unixforge.schedule_manager.modules.catalog.dto.CatalogFilterDTO;
-import com.unixforge.schedule_manager.modules.catalog.dto.CatalogResponseDTO;
-import com.unixforge.schedule_manager.modules.catalog.dto.CatalogStatusUpdateDTO;
+import com.unixforge.schedule_manager.modules.catalog.dto.request.CatalogCreateRequest;
+import com.unixforge.schedule_manager.modules.catalog.dto.request.CatalogStatusActivationRequest;
+import com.unixforge.schedule_manager.modules.catalog.dto.response.CatalogFilterResponse;
+import com.unixforge.schedule_manager.modules.catalog.dto.response.CatalogResponse;
 import com.unixforge.schedule_manager.modules.catalog.mapper.CatalogMapper;
 import com.unixforge.schedule_manager.modules.catalog.model.Catalog;
 import com.unixforge.schedule_manager.modules.catalog.repository.CatalogRepository;
@@ -28,7 +28,7 @@ public class CatalogService {
     private final CatalogMapper catalogMapper;
 
     @Transactional
-    public CatalogResponseDTO create(CatalogCreateDTO requestDTO) {
+    public CatalogResponse create(CatalogCreateRequest requestDTO) {
 
         User professional = userRepository.findById(requestDTO.getProfessionalId())
             .orElseThrow(() -> new RuntimeException("Profissional não encontrado com ID " + requestDTO.getProfessionalId()));
@@ -43,7 +43,7 @@ public class CatalogService {
     }
 
     @Transactional(readOnly = true)
-    public List<CatalogResponseDTO> findAll() {
+    public List<CatalogResponse> findAll() {
         return catalogRepository.findAll()
             .stream()
             .map(catalogMapper::toDTO)
@@ -51,7 +51,7 @@ public class CatalogService {
     }
 
     @Transactional(readOnly = true)
-    public CatalogResponseDTO findById(Long id) {
+    public CatalogResponse findById(Long id) {
 
         Catalog catalog = catalogRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Serviço não foi encontrado com ID"  + id));
@@ -61,7 +61,7 @@ public class CatalogService {
     }
 
     @Transactional
-    public CatalogResponseDTO updateStatusById(Long id, CatalogStatusUpdateDTO requestDTO) {
+    public CatalogResponse updateStatusById(Long id, CatalogStatusActivationRequest requestDTO) {
         Catalog catalog = catalogRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Serviço não encontrado com ID " + id));
 
@@ -73,7 +73,7 @@ public class CatalogService {
     }
 
     @Transactional(readOnly = true)
-    public List<CatalogResponseDTO> listCatalogs(CatalogFilterDTO requestDTO) {
+    public List<CatalogResponse> listCatalogs(CatalogFilterResponse requestDTO) {
         Specification<Catalog> spec = Specification.unrestricted();
 
         if(requestDTO.professional() != null) {

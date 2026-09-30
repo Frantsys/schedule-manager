@@ -1,4 +1,4 @@
-package com.unixforge.schedule_manager.modules.catalog.dto;
+package com.unixforge.schedule_manager.modules.catalog.dto.response;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CatalogResponseDTO {
+public class CatalogResponse {
 
     private Long id;
     private UserSummaryDTO professional;

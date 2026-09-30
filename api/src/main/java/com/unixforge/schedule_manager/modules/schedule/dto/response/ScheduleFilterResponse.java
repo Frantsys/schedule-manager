@@ -1,11 +1,11 @@
-package com.unixforge.schedule_manager.modules.schedule.dto;
+package com.unixforge.schedule_manager.modules.schedule.dto.response;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import com.unixforge.schedule_manager.domain.enums.ScheduleStatus;
 
-public record ScheduleFilterDTO(
+public record ScheduleFilterResponse(
     Long catalog,
     Long professional,
     Long customer,

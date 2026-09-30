@@ -1,4 +1,4 @@
-package com.unixforge.schedule_manager.modules.user.dto;
+package com.unixforge.schedule_manager.modules.user.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AddressDTO {
+public class AddressRequest {
     
     @NotBlank(message = "País é obrigatório")
     private String country;

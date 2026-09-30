@@ -1,6 +1,4 @@
-package com.unixforge.schedule_manager.modules.user.dto;
-
-import com.unixforge.schedule_manager.modules.user.entity.UserRole;
+package com.unixforge.schedule_manager.modules.user.dto.request;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
@@ -13,7 +11,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserCreateDTO {
+public class UserUpdateRequest {
 
     @NotBlank(message = "Nome de usuário é obrigatório")
     @Size(min = 3, max = 50, message = "Nome de usuário deve ter entre 3 e 50 caracteres")
@@ -26,12 +24,7 @@ public class UserCreateDTO {
     @NotBlank(message = "E-mail é obrigatório")
     @Email(message = "E-mail inválido")
     private String email;
-
-    @NotBlank(message = "Senha é obrigatória")
-    @Size(min = 8, max = 128, message = "Senha deve ter no mínimo 8 caracteres")
-    private String password;
     
-    @NotBlank(message = "Telefone é obrigatório")
     @Pattern(regexp = "^(?:\\+?55\\s?)?(?:\\(?([1-9][1-9])\\)?\\s?)?(?:((?:9\\d|[2-9])\\d{3})\\s?-?\\s?(\\d{4}))$", message = "Telefone inválido")
     private String phone;
 
@@ -40,9 +33,6 @@ public class UserCreateDTO {
 
     @NotNull(message = "Endereço é obrigatório")
     @Valid
-    private AddressDTO address;
-
-    @NotNull(message = "Função é obrigatória")
-    private UserRole role;
+    private AddressRequest address;
 
 }

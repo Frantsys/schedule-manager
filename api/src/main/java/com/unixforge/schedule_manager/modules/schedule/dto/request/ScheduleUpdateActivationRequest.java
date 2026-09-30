@@ -1,4 +1,4 @@
-package com.unixforge.schedule_manager.modules.schedule.dto;
+package com.unixforge.schedule_manager.modules.schedule.dto.request;
 
 import com.unixforge.schedule_manager.domain.enums.ScheduleStatus;
 
@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ScheduleUpdateStatusDTO {
+public class ScheduleUpdateActivationRequest {
     
     @NotNull(message = "Status é obrigatório")
     private ScheduleStatus status;

@@ -3,10 +3,10 @@ package com.unixforge.schedule_manager.modules.catalog.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.unixforge.schedule_manager.modules.catalog.dto.CatalogCreateDTO;
-import com.unixforge.schedule_manager.modules.catalog.dto.CatalogFilterDTO;
-import com.unixforge.schedule_manager.modules.catalog.dto.CatalogResponseDTO;
-import com.unixforge.schedule_manager.modules.catalog.dto.CatalogStatusUpdateDTO;
+import com.unixforge.schedule_manager.modules.catalog.dto.request.CatalogCreateRequest;
+import com.unixforge.schedule_manager.modules.catalog.dto.request.CatalogStatusActivationRequest;
+import com.unixforge.schedule_manager.modules.catalog.dto.response.CatalogFilterResponse;
+import com.unixforge.schedule_manager.modules.catalog.dto.response.CatalogResponse;
 import com.unixforge.schedule_manager.modules.catalog.service.CatalogService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -34,36 +34,36 @@ public class CatalogController {
     private final CatalogService catalogService;
 
     @PostMapping
-    public ResponseEntity<CatalogResponseDTO> create(@RequestBody @Valid CatalogCreateDTO DTO) {
-        CatalogResponseDTO createdCatalog = catalogService.create(DTO);
+    public ResponseEntity<CatalogResponse> create(@RequestBody @Valid CatalogCreateRequest DTO) {
+        CatalogResponse createdCatalog = catalogService.create(DTO);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCatalog);
     }
 
     @GetMapping
-    public ResponseEntity<List<CatalogResponseDTO>> findAll() {
-        List<CatalogResponseDTO> catalogs = catalogService.findAll();
+    public ResponseEntity<List<CatalogResponse>> findAll() {
+        List<CatalogResponse> catalogs = catalogService.findAll();
 
         return ResponseEntity.ok(catalogs);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CatalogResponseDTO> findById(@PathVariable Long id) {
-        CatalogResponseDTO catalog = catalogService.findById(id);
+    public ResponseEntity<CatalogResponse> findById(@PathVariable Long id) {
+        CatalogResponse catalog = catalogService.findById(id);
 
         return ResponseEntity.ok(catalog);
     }
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<CatalogResponseDTO> updateStatusById(@PathVariable Long id, @RequestBody @Valid CatalogStatusUpdateDTO DTO) {
-        CatalogResponseDTO catalog = catalogService.updateStatusById(id, DTO);
+    public ResponseEntity<CatalogResponse> updateStatusById(@PathVariable Long id, @RequestBody @Valid CatalogStatusActivationRequest DTO) {
+        CatalogResponse catalog = catalogService.updateStatusById(id, DTO);
 
         return ResponseEntity.ok(catalog);
     }
     
     @GetMapping("/filter")
-    public ResponseEntity<List<CatalogResponseDTO>> listCatalogs(@RequestParam CatalogFilterDTO filterDTO) {
-        List<CatalogResponseDTO> catalogs = catalogService.listCatalogs(filterDTO);
+    public ResponseEntity<List<CatalogResponse>> listCatalogs(@RequestParam CatalogFilterResponse filterDTO) {
+        List<CatalogResponse> catalogs = catalogService.listCatalogs(filterDTO);
 
         return ResponseEntity.ok(catalogs);
     }

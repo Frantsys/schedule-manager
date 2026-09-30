@@ -4,10 +4,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.unixforge.schedule_manager.modules.schedule.dto.ScheduleCreateDTO;
-import com.unixforge.schedule_manager.modules.schedule.dto.ScheduleFilterDTO;
-import com.unixforge.schedule_manager.modules.schedule.dto.ScheduleResponseDTO;
-import com.unixforge.schedule_manager.modules.schedule.dto.ScheduleUpdateStatusDTO;
+import com.unixforge.schedule_manager.modules.schedule.dto.request.ScheduleCreateRequest;
+import com.unixforge.schedule_manager.modules.schedule.dto.request.ScheduleUpdateActivationRequest;
+import com.unixforge.schedule_manager.modules.schedule.dto.response.ScheduleFilterResponse;
+import com.unixforge.schedule_manager.modules.schedule.dto.response.ScheduleResponse;
 import com.unixforge.schedule_manager.modules.schedule.service.ScheduleService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -33,36 +33,36 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     @PostMapping
-    public ResponseEntity<ScheduleResponseDTO> create(@RequestBody @Valid ScheduleCreateDTO DTO) {
-        ScheduleResponseDTO createdSchedule = scheduleService.create(DTO);
+    public ResponseEntity<ScheduleResponse> create(@RequestBody @Valid ScheduleCreateRequest DTO) {
+        ScheduleResponse createdSchedule = scheduleService.create(DTO);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(createdSchedule);
     }
     
     @GetMapping
-    public ResponseEntity<List<ScheduleResponseDTO>> findAll() {
-        List<ScheduleResponseDTO> schedules = scheduleService.findAll();
+    public ResponseEntity<List<ScheduleResponse>> findAll() {
+        List<ScheduleResponse> schedules = scheduleService.findAll();
         
         return ResponseEntity.ok(schedules);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ScheduleResponseDTO> findById(@PathVariable Long id) {
-        ScheduleResponseDTO schedule = scheduleService.findById(id);
+    public ResponseEntity<ScheduleResponse> findById(@PathVariable Long id) {
+        ScheduleResponse schedule = scheduleService.findById(id);
 
         return ResponseEntity.ok(schedule);
     }
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<ScheduleResponseDTO> updateStatus(@PathVariable Long id, @RequestBody @Valid ScheduleUpdateStatusDTO DTO) {
-        ScheduleResponseDTO updatedSchedules = scheduleService.updateStatus(id, DTO);
+    public ResponseEntity<ScheduleResponse> updateStatus(@PathVariable Long id, @RequestBody @Valid ScheduleUpdateActivationRequest DTO) {
+        ScheduleResponse updatedSchedules = scheduleService.updateStatus(id, DTO);
 
         return ResponseEntity.ok(updatedSchedules);
     }
 
     @GetMapping("/filter")
-    public ResponseEntity<List<ScheduleResponseDTO>> listSchedules(@RequestParam ScheduleFilterDTO filterDTO) {
-        List<ScheduleResponseDTO> schedules = scheduleService.listSchedules(filterDTO);
+    public ResponseEntity<List<ScheduleResponse>> listSchedules(@RequestParam ScheduleFilterResponse filterDTO) {
+        List<ScheduleResponse> schedules = scheduleService.listSchedules(filterDTO);
 
         return ResponseEntity.ok(schedules);
     }
