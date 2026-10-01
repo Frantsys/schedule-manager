@@ -13,7 +13,7 @@ import com.unixforge.schedule_manager.modules.catalog.dto.response.CatalogRespon
 import com.unixforge.schedule_manager.modules.catalog.mapper.CatalogMapper;
 import com.unixforge.schedule_manager.modules.catalog.model.Catalog;
 import com.unixforge.schedule_manager.modules.catalog.repository.CatalogRepository;
-import com.unixforge.schedule_manager.modules.catalog.specification.CatalogSpecification;
+import com.unixforge.schedule_manager.modules.catalog.specification.CatalogSpecs;
 import com.unixforge.schedule_manager.modules.user.entity.User;
 import com.unixforge.schedule_manager.modules.user.repository.UserRepository;
 
@@ -77,35 +77,35 @@ public class CatalogService {
         Specification<Catalog> spec = Specification.unrestricted();
 
         if(requestDTO.professional() != null) {
-            spec = spec.and(CatalogSpecification.byProfessionalId(requestDTO.professional()));
+            spec = spec.and(CatalogSpecs.byProfessionalId(requestDTO.professional()));
         }
 
         if(requestDTO.name() != null) {
-            spec = spec.and(CatalogSpecification.byName(requestDTO.name()));
+            spec = spec.and(CatalogSpecs.byName(requestDTO.name()));
         }
 
         if(requestDTO.minPrice() != null && requestDTO.maxPrice() == null) {
-            spec = spec.and(CatalogSpecification.byPriceGreater(requestDTO.minPrice()));
+            spec = spec.and(CatalogSpecs.byPriceGreater(requestDTO.minPrice()));
         }
 
         if(requestDTO.minPrice() == null && requestDTO.maxPrice() != null) {
-            spec = spec.and(CatalogSpecification.byPriceLess(requestDTO.maxPrice()));
+            spec = spec.and(CatalogSpecs.byPriceLess(requestDTO.maxPrice()));
         }
 
         if(requestDTO.isActive() != null) {
-            spec = spec.and(CatalogSpecification.byActivation(requestDTO.isActive()));
+            spec = spec.and(CatalogSpecs.byActivation(requestDTO.isActive()));
         }
 
         if(requestDTO.startDate() != null && requestDTO.endDate() == null) {
-            spec = spec.and(CatalogSpecification.byCreatedAfter(requestDTO.startDate()));
+            spec = spec.and(CatalogSpecs.byCreatedAfter(requestDTO.startDate()));
         }
 
         if(requestDTO.startDate() == null && requestDTO.endDate() != null) {
-            spec = spec.and(CatalogSpecification.byCreatedBefore(requestDTO.endDate()));
+            spec = spec.and(CatalogSpecs.byCreatedBefore(requestDTO.endDate()));
         }
 
         if(requestDTO.startDate() != null && requestDTO.endDate() != null) {
-            spec = spec.and(CatalogSpecification.byCreatedBetween(requestDTO.startDate(), requestDTO.endDate()));
+            spec = spec.and(CatalogSpecs.byCreatedBetween(requestDTO.startDate(), requestDTO.endDate()));
         }
 
         return catalogRepository.findAll(spec)

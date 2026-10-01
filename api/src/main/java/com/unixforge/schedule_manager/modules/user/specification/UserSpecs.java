@@ -10,7 +10,7 @@ import org.springframework.data.jpa.domain.Specification;
 import com.unixforge.schedule_manager.modules.user.entity.User;
 import com.unixforge.schedule_manager.modules.user.entity.UserRole;
 
-public class UserSpecification {
+public class UserSpecs {
     
     public static Specification<User> byName(String name){
         return (root, query, cb) -> {

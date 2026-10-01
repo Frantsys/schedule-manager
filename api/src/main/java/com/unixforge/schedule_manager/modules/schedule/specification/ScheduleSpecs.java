@@ -10,7 +10,7 @@ import org.springframework.data.jpa.domain.Specification;
 import com.unixforge.schedule_manager.domain.enums.ScheduleStatus;
 import com.unixforge.schedule_manager.modules.schedule.model.Schedule;
 
-public class ScheduleSpecification {
+public class ScheduleSpecs {
 
     public static Specification<Schedule> byStatus(ScheduleStatus status) {
         return (root, query, cb) -> {

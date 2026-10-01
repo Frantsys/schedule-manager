@@ -8,7 +8,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.unixforge.schedule_manager.modules.catalog.model.Catalog;
 
-public class CatalogSpecification {
+public class CatalogSpecs {
     
     public static Specification<Catalog> byProfessionalId(Long id) {
         return (root, query, cb) -> {

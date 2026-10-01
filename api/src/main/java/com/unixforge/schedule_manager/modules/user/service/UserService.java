@@ -16,7 +16,7 @@ import com.unixforge.schedule_manager.modules.user.dto.response.UserResponse;
 import com.unixforge.schedule_manager.modules.user.entity.User;
 import com.unixforge.schedule_manager.modules.user.mapper.UserMapper;
 import com.unixforge.schedule_manager.modules.user.repository.UserRepository;
-import com.unixforge.schedule_manager.modules.user.specification.UserSpecification;
+import com.unixforge.schedule_manager.modules.user.specification.UserSpecs;
 
 import lombok.RequiredArgsConstructor;
 
@@ -110,35 +110,35 @@ public class UserService {
         Specification<User> spec = Specification.unrestricted();
 
         if(requestDTO.name() != null) {
-            spec = spec.and(UserSpecification.byName(requestDTO.name()));
+            spec = spec.and(UserSpecs.byName(requestDTO.name()));
         }
 
         if(requestDTO.role() != null) {
-            spec = spec.and(UserSpecification.byRole(requestDTO.role()));
+            spec = spec.and(UserSpecs.byRole(requestDTO.role()));
         }
 
         if(requestDTO.roles() != null && !requestDTO.roles().isEmpty()) {
-            spec = spec.and(UserSpecification.byRoles(requestDTO.roles()));
+            spec = spec.and(UserSpecs.byRoles(requestDTO.roles()));
         }
 
         if(requestDTO.category() != null && requestDTO.category().isBlank()) {
-            spec = spec.and(UserSpecification.byCategory(requestDTO.category()));
+            spec = spec.and(UserSpecs.byCategory(requestDTO.category()));
         }
 
         if(requestDTO.isActive() != null) {
-            spec = spec.and(UserSpecification.byActivation(requestDTO.isActive()));
+            spec = spec.and(UserSpecs.byActivation(requestDTO.isActive()));
         }
 
         if(requestDTO.startDate() != null && requestDTO.endDate() == null) {
-            spec = spec.and(UserSpecification.byCreatedAfter(requestDTO.startDate()));
+            spec = spec.and(UserSpecs.byCreatedAfter(requestDTO.startDate()));
         }
 
         if(requestDTO.startDate() == null && requestDTO.endDate() != null) {
-            spec = spec.and(UserSpecification.byCreatedBefore(requestDTO.endDate()));
+            spec = spec.and(UserSpecs.byCreatedBefore(requestDTO.endDate()));
         }
 
         if(requestDTO.startDate() != null && requestDTO.endDate() != null) {
-            spec = spec.and(UserSpecification.byCreatedBetween(requestDTO.startDate(), requestDTO.endDate()));
+            spec = spec.and(UserSpecs.byCreatedBetween(requestDTO.startDate(), requestDTO.endDate()));
         }
 
         return userRepository.findAll(spec)

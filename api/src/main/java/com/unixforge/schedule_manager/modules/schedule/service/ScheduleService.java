@@ -16,7 +16,7 @@ import com.unixforge.schedule_manager.modules.schedule.dto.response.ScheduleResp
 import com.unixforge.schedule_manager.modules.schedule.mapper.ScheduleMapper;
 import com.unixforge.schedule_manager.modules.schedule.model.Schedule;
 import com.unixforge.schedule_manager.modules.schedule.repository.ScheduleRepository;
-import com.unixforge.schedule_manager.modules.schedule.specification.ScheduleSpecification;
+import com.unixforge.schedule_manager.modules.schedule.specification.ScheduleSpecs;
 import com.unixforge.schedule_manager.modules.user.entity.User;
 import com.unixforge.schedule_manager.modules.user.repository.UserRepository;
 
@@ -93,35 +93,35 @@ public class ScheduleService {
         Specification<Schedule> spec = Specification.unrestricted();
 
         if (requestDTO.status() != null) {
-            spec = spec.and(ScheduleSpecification.byStatus(requestDTO.status()));
+            spec = spec.and(ScheduleSpecs.byStatus(requestDTO.status()));
         }
 
         if (requestDTO.multipleStatus() != null && !requestDTO.multipleStatus().isEmpty()) {
-            spec = spec.and(ScheduleSpecification.byStatuses(requestDTO.multipleStatus()));
+            spec = spec.and(ScheduleSpecs.byStatuses(requestDTO.multipleStatus()));
         }
 
         if (requestDTO.customer() != null) {
-            spec = spec.and(ScheduleSpecification.byCustomerId(requestDTO.customer()));
+            spec = spec.and(ScheduleSpecs.byCustomerId(requestDTO.customer()));
         }
 
         if (requestDTO.professional() != null) {
-            spec = spec.and(ScheduleSpecification.byProfessionalId(requestDTO.professional()));
+            spec = spec.and(ScheduleSpecs.byProfessionalId(requestDTO.professional()));
         }
 
         if (requestDTO.catalog() != null) {
-            spec = spec.and(ScheduleSpecification.byCatalogId(requestDTO.catalog()));
+            spec = spec.and(ScheduleSpecs.byCatalogId(requestDTO.catalog()));
         }
 
         if(requestDTO.startDate() != null && requestDTO.endDate() == null) {
-            spec = spec.and(ScheduleSpecification.byCreatedAfter(requestDTO.startDate()));
+            spec = spec.and(ScheduleSpecs.byCreatedAfter(requestDTO.startDate()));
         }
 
         if(requestDTO.startDate() == null && requestDTO.endDate() != null) {
-            spec = spec.and(ScheduleSpecification.byCreatedBefore(requestDTO.endDate()));
+            spec = spec.and(ScheduleSpecs.byCreatedBefore(requestDTO.endDate()));
         }
 
         if(requestDTO.startDate() != null && requestDTO.endDate() != null) {
-            spec = spec.and(ScheduleSpecification.byCreatedBetween(requestDTO.startDate(), requestDTO.endDate()));
+            spec = spec.and(ScheduleSpecs.byCreatedBetween(requestDTO.startDate(), requestDTO.endDate()));
         }
 
         return scheduleRepository.findAll(spec)
