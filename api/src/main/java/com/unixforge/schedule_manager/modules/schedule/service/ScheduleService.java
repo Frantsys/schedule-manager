@@ -6,7 +6,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.unixforge.schedule_manager.domain.enums.ScheduleStatus;
+import com.unixforge.schedule_manager.modules.schedule.model.ScheduleStatus;
 import com.unixforge.schedule_manager.modules.catalog.model.Catalog;
 import com.unixforge.schedule_manager.modules.catalog.repository.CatalogRepository;
 import com.unixforge.schedule_manager.modules.schedule.dto.request.ScheduleCreateRequest;

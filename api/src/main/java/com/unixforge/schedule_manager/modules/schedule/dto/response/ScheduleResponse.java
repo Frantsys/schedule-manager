@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-import com.unixforge.schedule_manager.domain.enums.ScheduleStatus;
+import com.unixforge.schedule_manager.modules.schedule.model.ScheduleStatus;
 
 import com.unixforge.schedule_manager.modules.user.entity.User;
 import lombok.AllArgsConstructor;

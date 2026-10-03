@@ -6,7 +6,6 @@ import java.time.LocalTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.unixforge.schedule_manager.domain.enums.ScheduleStatus;
 import com.unixforge.schedule_manager.modules.catalog.model.Catalog;
 import com.unixforge.schedule_manager.modules.user.entity.User;
 

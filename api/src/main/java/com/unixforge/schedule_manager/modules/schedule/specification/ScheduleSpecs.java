@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.unixforge.schedule_manager.domain.enums.ScheduleStatus;
+import com.unixforge.schedule_manager.modules.schedule.model.ScheduleStatus;
 import com.unixforge.schedule_manager.modules.schedule.model.Schedule;
 
 public class ScheduleSpecs {

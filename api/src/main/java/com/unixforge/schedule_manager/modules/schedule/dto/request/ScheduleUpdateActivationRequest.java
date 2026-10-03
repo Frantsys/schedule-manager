@@ -1,6 +1,6 @@
 package com.unixforge.schedule_manager.modules.schedule.dto.request;
 
-import com.unixforge.schedule_manager.domain.enums.ScheduleStatus;
+import com.unixforge.schedule_manager.modules.schedule.model.ScheduleStatus;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

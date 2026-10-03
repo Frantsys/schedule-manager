@@ -1,4 +1,4 @@
-package com.unixforge.schedule_manager.domain.enums;
+package com.unixforge.schedule_manager.modules.schedule.model;
 
 public enum ScheduleStatus {
 
