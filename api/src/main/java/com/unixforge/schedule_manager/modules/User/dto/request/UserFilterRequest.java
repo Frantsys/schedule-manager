@@ -1,16 +1,16 @@
-package com.unixforge.schedule_manager.modules.User.dto.response;
+package com.unixforge.schedule_manager.modules.User.dto.request;
+
+import com.unixforge.schedule_manager.modules.User.model.UserRole;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import com.unixforge.schedule_manager.modules.User.model.UserRole;
-
-public record UserFilterResponse(
+public record UserFilterRequest(
         String name,
         UserRole role,
         List<UserRole> roles,
-        String category,
         Boolean isActive,
-        LocalDate startDate,
-        LocalDate endDate
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
 ) {}

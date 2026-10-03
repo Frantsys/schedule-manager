@@ -1,6 +1,5 @@
 package com.unixforge.schedule_manager.modules.User.dto.response;
 
-import com.unixforge.schedule_manager.modules.User.dto.request.UserAddressCreateRequest;
 import com.unixforge.schedule_manager.modules.User.model.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserResponse {
-    
+
     private Long id;
     private String cpf;
     private String firstName;
@@ -24,7 +23,7 @@ public class UserResponse {
     private String phoneNumber;
     private String gender;
     private String course;
-    private UserAddressCreateRequest address;
+    private UserAddressResponse address;
     private LocalDate birthDate;
     private UserRole role;
     private LocalDateTime createdAt;

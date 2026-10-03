@@ -4,18 +4,16 @@ import com.unixforge.schedule_manager.modules.Auth.dto.request.UserLoginRequest;
 import com.unixforge.schedule_manager.modules.Auth.dto.request.UserRegisterRequest;
 import com.unixforge.schedule_manager.modules.Auth.dto.response.UserLoginResponse;
 import com.unixforge.schedule_manager.modules.Auth.service.AuthService;
-import com.unixforge.schedule_manager.modules.user.dto.response.UserResponse;
+import com.unixforge.schedule_manager.modules.User.dto.response.UserResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
-
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "User Auth", description = "API path for managing user authentication")
 @RestController
@@ -39,9 +37,8 @@ public class AuthController {
 
         UserLoginResponse response = authService.userLogin(request);
 
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return ResponseEntity.ok(response);
 
     }
-
 
 }

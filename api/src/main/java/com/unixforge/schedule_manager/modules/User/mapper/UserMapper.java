@@ -11,7 +11,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    
+
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "role", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
@@ -21,9 +21,8 @@ public interface UserMapper {
 
     UserAddress toAddressEntity(UserAddressCreateRequest request);
 
-    @Mapping(target = "address", source = "address")
-    UserResponse toResponse(User response);
-    
-    UserSummaryResponse toSummaryResponse(User response);
+    UserResponse toResponse(User user);
+
+    UserSummaryResponse toSummaryResponse(User user);
 
 }

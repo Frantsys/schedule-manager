@@ -1,13 +1,8 @@
 package com.unixforge.schedule_manager.modules.Catalog.model;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-
-import org.hibernate.annotations.CreationTimestamp;
-
-import com.unixforge.schedule_manager.modules.user.entity.User;
-
+import com.unixforge.schedule_manager.modules.User.model.User;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -20,6 +15,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "catalogs")
@@ -28,29 +27,30 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Catalog {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "professional_id", nullable = false)
+    @JoinColumn(nullable = false, name = "professional_id")
     private User professional;
 
     @Column(nullable = false)
     private String name;
 
+    @Convert(converter = DurationConverter.class)
     @Column(nullable = false)
     private Duration duration;
 
     @Column(nullable = false)
     private Double price;
 
-    @Column(name = "is_active", nullable = false)
+    @Column(nullable = false, name = "is_active")
     private Boolean isActive;
 
     @CreationTimestamp
-    @Column(name = "created_at", nullable = false)
+    @Column(nullable = false, name = "created_at")
     private LocalDateTime createdAt;
 
 }

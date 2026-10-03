@@ -1,14 +1,7 @@
 package com.unixforge.schedule_manager.modules.Schedule.model;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-
-import org.hibernate.annotations.CreationTimestamp;
-
 import com.unixforge.schedule_manager.modules.Catalog.model.Catalog;
-import com.unixforge.schedule_manager.modules.user.entity.User;
-
+import com.unixforge.schedule_manager.modules.User.model.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -24,6 +17,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "schedules")
@@ -32,44 +30,44 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Schedule {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(nullable = false, name = "customer_id")
     private User customer;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "professional_id", nullable = false)
+    @JoinColumn(nullable = false, name = "professional_id")
     private User professional;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "catalog_id", nullable = false)
+    @JoinColumn(nullable = false, name = "catalog_id")
     private Catalog catalog;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 500)
     private String description;
 
-    @Column(name = "start_date", nullable = false)
+    @Column(nullable = false, name = "start_date")
     private LocalDate startDate;
 
-    @Column(name = "end_date", nullable = false)
+    @Column(nullable = false, name = "end_date")
     private LocalDate endDate;
 
-    @Column(name = "start_time", nullable = false)
-    private LocalTime startTime; 
+    @Column(nullable = false, name = "start_time")
+    private LocalTime startTime;
 
-    @Column(name = "end_time",nullable = false)
+    @Column(nullable = false, name = "end_time")
     private LocalTime endTime;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
+    @Column(nullable = false)
     private ScheduleStatus status;
 
     @CreationTimestamp
-    @Column(name = "created_at", nullable = false)
+    @Column(nullable = false, name = "created_at")
     private LocalDateTime createdAt;
 
 }

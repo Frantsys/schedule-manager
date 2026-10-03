@@ -1,117 +1,136 @@
 package com.unixforge.schedule_manager.modules.Catalog.service;
 
-import java.util.List;
-
+import com.unixforge.schedule_manager.exception.ResourceNotFoundException;
+import com.unixforge.schedule_manager.modules.Catalog.dto.request.CatalogCreateRequest;
+import com.unixforge.schedule_manager.modules.Catalog.dto.request.CatalogFilterRequest;
+import com.unixforge.schedule_manager.modules.Catalog.dto.request.CatalogUpdateActivationRequest;
+import com.unixforge.schedule_manager.modules.Catalog.dto.response.CatalogResponse;
+import com.unixforge.schedule_manager.modules.Catalog.dto.response.CatalogSummaryResponse;
+import com.unixforge.schedule_manager.modules.Catalog.mapper.CatalogMapper;
+import com.unixforge.schedule_manager.modules.Catalog.model.Catalog;
+import com.unixforge.schedule_manager.modules.Catalog.repository.CatalogRepository;
+import com.unixforge.schedule_manager.modules.Catalog.spec.CatalogSpec;
+import com.unixforge.schedule_manager.modules.User.model.User;
+import com.unixforge.schedule_manager.modules.User.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.unixforge.schedule_manager.modules.Catalog.dto.request.CatalogCreateRequest;
-import com.unixforge.schedule_manager.modules.Catalog.dto.request.CatalogStatusActivationRequest;
-import com.unixforge.schedule_manager.modules.Catalog.dto.response.CatalogFilterResponse;
-import com.unixforge.schedule_manager.modules.Catalog.dto.response.CatalogResponse;
-import com.unixforge.schedule_manager.modules.Catalog.mapper.CatalogMapper;
-import com.unixforge.schedule_manager.modules.Catalog.model.Catalog;
-import com.unixforge.schedule_manager.modules.Catalog.repository.CatalogRepository;
-import com.unixforge.schedule_manager.modules.Catalog.specification.CatalogSpecs;
-import com.unixforge.schedule_manager.modules.user.entity.User;
-import com.unixforge.schedule_manager.modules.user.repository.UserRepository;
-
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class CatalogService {
-    
+
     private final CatalogRepository catalogRepository;
     private final UserRepository userRepository;
     private final CatalogMapper catalogMapper;
 
-    @Transactional
-    public CatalogResponse create(CatalogCreateRequest requestDTO) {
+    @Transactional(readOnly = true)
+    public List<CatalogResponse> findAll() {
 
-        User professional = userRepository.findById(requestDTO.getProfessionalId())
-            .orElseThrow(() -> new RuntimeException("Profissional não encontrado com ID " + requestDTO.getProfessionalId()));
-
-        Catalog catalog = catalogMapper.toEntity(requestDTO);
-        catalog.setProfessional(professional);
-
-        Catalog savedCatalog = catalogRepository.save(catalog);
-
-        return catalogMapper.toDTO(savedCatalog);
+        return catalogRepository.findAll()
+                .stream()
+                .map(catalogMapper::toResponse)
+                .toList();
 
     }
 
     @Transactional(readOnly = true)
-    public List<CatalogResponse> findAll() {
+    public List<CatalogSummaryResponse> findAllSummary() {
+
         return catalogRepository.findAll()
-            .stream()
-            .map(catalogMapper::toDTO)
-            .toList();
+                .stream()
+                .map(catalogMapper::toSummaryResponse)
+                .toList();
+
     }
 
     @Transactional(readOnly = true)
     public CatalogResponse findById(Long id) {
 
-        Catalog catalog = catalogRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Serviço não foi encontrado com ID"  + id));
+        Catalog catalog = findCatalogById(id);
 
-        return catalogMapper.toDTO(catalog);
+        return catalogMapper.toResponse(catalog);
+
+    }
+
+    @Transactional(readOnly = true)
+    public List<CatalogResponse> filter(CatalogFilterRequest filter) {
+
+        Specification<Catalog> spec = Specification.unrestricted();
+
+        if (filter.professional() != null) {
+            spec = spec.and(CatalogSpec.byProfessionalId(filter.professional()));
+        }
+
+        if (filter.name() != null && !filter.name().isBlank()) {
+            spec = spec.and(CatalogSpec.byName(filter.name()));
+        }
+
+        if (filter.minPrice() != null && filter.maxPrice() != null) {
+            spec = spec.and(CatalogSpec.byPriceBetween(filter.minPrice(), filter.maxPrice()));
+        } else if (filter.minPrice() != null) {
+            spec = spec.and(CatalogSpec.byMinPrice(filter.minPrice()));
+        } else if (filter.maxPrice() != null) {
+            spec = spec.and(CatalogSpec.byMaxPrice(filter.maxPrice()));
+        }
+
+        if (filter.isActive() != null) {
+            spec = spec.and(CatalogSpec.byActivation(filter.isActive()));
+        }
+
+        if (filter.startDate() != null && filter.endDate() != null) {
+            spec = spec.and(CatalogSpec.byCreatedBetween(filter.startDate(), filter.endDate()));
+        } else if (filter.startDate() != null) {
+            spec = spec.and(CatalogSpec.byCreatedAfter(filter.startDate()));
+        } else if (filter.endDate() != null) {
+            spec = spec.and(CatalogSpec.byCreatedBefore(filter.endDate()));
+        }
+
+        return catalogRepository.findAll(spec)
+                .stream()
+                .map(catalogMapper::toResponse)
+                .toList();
 
     }
 
     @Transactional
-    public CatalogResponse updateStatusById(Long id, CatalogStatusActivationRequest requestDTO) {
-        Catalog catalog = catalogRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Serviço não encontrado com ID " + id));
+    public CatalogResponse create(CatalogCreateRequest request) {
 
-        catalog.setIsActive(requestDTO.getIsActive());
+        User professional = userRepository.findById(request.getProfessionalId())
+                .orElseThrow(() -> new ResourceNotFoundException("Profissional não encontrado com ID: " + request.getProfessionalId()));
+
+        Catalog catalog = catalogMapper.toEntity(request);
+
+        catalog.setProfessional(professional);
+        catalog.setIsActive(true);
+
+        Catalog savedCatalog = catalogRepository.save(catalog);
+
+        return catalogMapper.toResponse(savedCatalog);
+
+    }
+
+    @Transactional
+    public CatalogResponse updateActivationById(Long id, CatalogUpdateActivationRequest request) {
+
+        Catalog catalog = findCatalogById(id);
+
+        catalog.setIsActive(request.getIsActive());
 
         Catalog updatedCatalog = catalogRepository.save(catalog);
 
-        return catalogMapper.toDTO(updatedCatalog);
+        return catalogMapper.toResponse(updatedCatalog);
+
     }
 
-    @Transactional(readOnly = true)
-    public List<CatalogResponse> listCatalogs(CatalogFilterResponse requestDTO) {
-        Specification<Catalog> spec = Specification.unrestricted();
+    private Catalog findCatalogById(Long id) {
 
-        if(requestDTO.professional() != null) {
-            spec = spec.and(CatalogSpecs.byProfessionalId(requestDTO.professional()));
-        }
+        return catalogRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Serviço não encontrado com ID: " + id));
 
-        if(requestDTO.name() != null) {
-            spec = spec.and(CatalogSpecs.byName(requestDTO.name()));
-        }
-
-        if(requestDTO.minPrice() != null && requestDTO.maxPrice() == null) {
-            spec = spec.and(CatalogSpecs.byPriceGreater(requestDTO.minPrice()));
-        }
-
-        if(requestDTO.minPrice() == null && requestDTO.maxPrice() != null) {
-            spec = spec.and(CatalogSpecs.byPriceLess(requestDTO.maxPrice()));
-        }
-
-        if(requestDTO.isActive() != null) {
-            spec = spec.and(CatalogSpecs.byActivation(requestDTO.isActive()));
-        }
-
-        if(requestDTO.startDate() != null && requestDTO.endDate() == null) {
-            spec = spec.and(CatalogSpecs.byCreatedAfter(requestDTO.startDate()));
-        }
-
-        if(requestDTO.startDate() == null && requestDTO.endDate() != null) {
-            spec = spec.and(CatalogSpecs.byCreatedBefore(requestDTO.endDate()));
-        }
-
-        if(requestDTO.startDate() != null && requestDTO.endDate() != null) {
-            spec = spec.and(CatalogSpecs.byCreatedBetween(requestDTO.startDate(), requestDTO.endDate()));
-        }
-
-        return catalogRepository.findAll(spec)
-            .stream()
-            .map(catalogMapper::toDTO)
-            .toList();
     }
 
 }
