@@ -5,9 +5,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import com.unixforge.schedule_manager.domain.enums.ScheduleStatus;
-import com.unixforge.schedule_manager.domain.shared.CatalogSummaryDTO;
-import com.unixforge.schedule_manager.domain.shared.UserSummaryDTO;
 
+import com.unixforge.schedule_manager.modules.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,9 +18,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ScheduleResponse {
     
-    private UserSummaryDTO customer;
-    private UserSummaryDTO professional;
-    private CatalogSummaryDTO catalog;
+    private User customer;
+    private User professional;
+    private CatalogSummaryResponse catalog;
     private String description;
     private LocalDate startDate;
     private LocalDate endDate;
