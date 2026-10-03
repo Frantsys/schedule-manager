@@ -1,5 +1,15 @@
 package com.unixforge.schedule_manager.modules.Auth.controller;
 
+import com.unixforge.schedule_manager.modules.Auth.dto.request.UserLoginRequest;
+import com.unixforge.schedule_manager.modules.Auth.dto.request.UserRegisterRequest;
+import com.unixforge.schedule_manager.modules.Auth.dto.response.UserLoginResponse;
+import com.unixforge.schedule_manager.modules.Auth.service.AuthService;
+import com.unixforge.schedule_manager.modules.user.dto.response.UserResponse;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -7,12 +17,31 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@Tag(name = "Auth", description = "API for managing authentication")
-@RestController 
+@Tag(name = "User Auth", description = "API path for managing user authentication")
+@RestController
 @RequestMapping("/v1/api/auth")
-@RequiredArgsConstructor 
+@RequiredArgsConstructor
 public class AuthController {
-    
-    
+
+    private final AuthService authService;
+
+    @PostMapping("/register")
+    public ResponseEntity<UserResponse> register(@RequestBody @Valid UserRegisterRequest request) {
+
+        UserResponse user = authService.userRegister(request);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UserLoginResponse> login(@RequestBody @Valid UserLoginRequest request) {
+
+        UserLoginResponse response = authService.userLogin(request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+
+    }
+
 
 }
