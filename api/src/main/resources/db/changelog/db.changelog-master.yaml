@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/migrations/001-create-users-table.yaml
+  - include:
+      file: db/changelog/migrations/002-create-catalogs-table.yaml
+  - include:
+      file: db/changelog/migrations/003-create-schedules-table.yaml

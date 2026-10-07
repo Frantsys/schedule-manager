@@ -1,0 +1,89 @@
+package com.unixforge.schedule_manager.modules.Schedule.specification;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
+
+import org.springframework.data.jpa.domain.Specification;
+
+import com.unixforge.schedule_manager.modules.Schedule.model.ScheduleStatus;
+import com.unixforge.schedule_manager.modules.Schedule.model.Schedule;
+
+public class ScheduleSpecs {
+
+    public static Specification<Schedule> byStatus(ScheduleStatus status) {
+        return (root, query, cb) -> {
+            if (status == null) return cb.conjunction();
+
+            return cb.equal(root.get("status"), status);
+        };
+    }
+
+    public static Specification<Schedule> byStatuses(List<ScheduleStatus> multipleStatus) {
+        return (root, query, cb) -> {
+            if (multipleStatus == null || multipleStatus.isEmpty()) return cb.conjunction();
+
+            return root.get("status").in(multipleStatus);
+        };
+    }
+
+    public static Specification<Schedule> byCustomerId(Long id){
+        return (root, query, cb) -> {
+            if (id == null) return cb.conjunction();
+
+            return cb.equal(root.get("customer").get("id"), id);
+        };
+    }
+
+    public static Specification<Schedule> byProfessionalId(Long id){
+        return (root, query, cb) -> {
+            if (id == null) return cb.conjunction();
+
+            return cb.equal(root.get("professional").get("id"), id);
+        };
+    }
+
+    public static Specification<Schedule> byCatalogId(Long id){
+        return (root, query, cb) -> {
+            if (id == null) return cb.conjunction();
+
+            return cb.equal(root.get("catalog").get("id"), id);
+        };
+    }
+
+    // FILTROS DA DATA DE CRIAÇÃO DO AGENDAMENTO
+    
+    public static Specification<Schedule> byCreatedAfter(LocalDate startDate){
+        return (root, query, cb) -> {
+            if (startDate == null) return cb.conjunction();
+
+            LocalDateTime startDateTime = startDate.atStartOfDay();
+
+            return cb.greaterThanOrEqualTo(root.get("createdAt"), startDateTime);
+        };
+    }
+
+    public static Specification<Schedule> byCreatedBefore(LocalDate endDate){
+        return (root, query, cb) -> {
+            if (endDate == null) return cb.conjunction();
+
+            LocalDateTime endDateTime = endDate.atTime(LocalTime.MAX);
+
+            return cb.lessThanOrEqualTo(root.get("createdAt"), endDateTime);
+        };
+    }
+
+    public static Specification<Schedule> byCreatedBetween(LocalDate startDate, LocalDate endDate){
+        return (root, query, cb) -> {
+            if (startDate == null) return cb.conjunction();
+            if (endDate == null) return cb.conjunction();
+
+            LocalDateTime startDateTime = startDate.atStartOfDay();
+            LocalDateTime endDateTime = endDate.atTime(LocalTime.MAX);
+
+            return cb.between(root.get("createdAt"), startDateTime, endDateTime);
+        };
+    }    
+
+}
