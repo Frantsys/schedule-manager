@@ -14,7 +14,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { useEffect, useState } from "react"
-import { formatDateOnly, formatDateOnlyToDate } from "../organism/BlockAgenda/lib/schedule-time"
+import { formatDateOnlyToDate } from "@/modules/core/components/organisms/BlockAgenda/lib/schedule-time"
+
 
 type Props = {
   dateStart?: string
