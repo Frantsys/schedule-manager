@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, DM_Sans, Manrope } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/sonner";
+import { NetworkStatus } from "@/shared/components/molecules/NetworkStatus";
 
 const manropeHeading = Manrope({ subsets: ['latin'], variable: '--font-heading' });
 const dmSans = DM_Sans({ subsets: ['latin'], variable: '--font-sans' });
@@ -27,7 +28,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <body className="min-h-screen w-full bg-background flex flex-col font-sans">
         {children}
-        <Toaster />
+        <Toaster className="font-sans! " />
+        <NetworkStatus />
       </body>
     </html>
   );
