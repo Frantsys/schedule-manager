@@ -50,7 +50,7 @@ export function InterativeMap() {
     return (
         <>
            
-            <aside className="hidden lg:flex lg:items-start lg:justify-center w-1/3 xl:w-3/12 p-4 h-[80vh]">
+            <aside className="hidden lg:flex lg:items-start lg:justify-center w-1/3 xl:w-3/12 p-4 h-8/10 rounded">
                 {renderMap()}
             </aside>
 
@@ -66,7 +66,7 @@ export function InterativeMap() {
                         </Button>
                     </SheetTrigger>
                     
-                    <SheetContent side="right" className="w-[90vw] sm:w-[400px] p-0 flex flex-col h-full">
+                    <SheetContent side="right" className="w-[90vw] sm:w-100 p-0 flex flex-col h-full">
                         <SheetHeader className="p-4 border-b bg-background z-10 shrink-0">
                             <SheetTitle className="text-left flex items-center gap-2">
                                 <MapIcon className="size-5 text-primary" />

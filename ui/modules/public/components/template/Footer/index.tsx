@@ -2,7 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 import logo from "@/public/main-splash-screen-icon.svg"
 import { Mail, Phone, MapPin } from "lucide-react"
-import { FaInstagram, FaFacebook, FaLinkedin } from "react-icons/fa"
+import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa"
 
 
 export function Footer() {

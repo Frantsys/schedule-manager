@@ -25,8 +25,11 @@ export function MapBase({
     const mapStyle = useMemo(() => mapConfig.getStyleUrl(theme), [theme]);
 
     return (
-        <div className="w-full h-full relative rounded-xl overflow-hidden border border-border shadow-sm">
+        <div className="w-full h-full relative rounded overflow-hidden border ">
             <Map
+                style={{
+                    borderRadius: 2
+                }}
                 initialViewState={mapConfig.defaultCenter}
                 mapStyle={mapStyle}
                 attributionControl={false}
