@@ -60,3 +60,8 @@ schedule-manager/
 ## Licença
 
 Este projeto está sob a licença especificada no arquivo [LICENSE](LICENSE).
+
+## Autores
+
+1. **Franciscarlos Medeiros de Oliveira** (BACKEND DEVELOPER)
+2. **Lucio Messias Santos** (FRONTEND DEVELOPER)
