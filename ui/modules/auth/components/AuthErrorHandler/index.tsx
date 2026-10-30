@@ -2,7 +2,7 @@
 
 import { useEffect } from "react"
 import { useSearchParams, useRouter, usePathname } from "next/navigation"
-import { toast } from "sonner" // Ajuste o import
+import { toast } from "sonner"
 
 const ERROR_MESSAGES: Record<string, string> = {
     invalid_credentials: "As credenciais fornecidas pelo provedor são inválidas ou expiraram.",

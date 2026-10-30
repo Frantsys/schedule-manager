@@ -30,3 +30,18 @@ export interface ProfessionalSignInInput {
     category: string
     address: Address
 }
+
+
+export enum Provider {
+    Local = "LOCAL",
+    Google = "GOOGLE"
+}
+
+
+export interface UserCredentials {
+    username: string
+    email: string
+    provider: Provider
+    roles: string[]
+    lastLoggedIn: string
+}

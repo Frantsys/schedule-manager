@@ -5,8 +5,6 @@ import { Field, FieldContent, FieldError, FieldGroup, FieldLabel } from "@/compo
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"
 import { Separator } from "@/components/ui/separator"
 import { CircleAlertIcon, EyeClosedIcon, EyeIcon, LockIcon, UserRoundIcon } from "lucide-react"
-import Image from "next/image"
-import googleLogo from "@/public/official-Google-Logo-PNG-Image-1456013550.png"
 import { startTransition, useActionState, useEffect, useState } from "react"
 import z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -16,10 +14,21 @@ import Link from "next/link"
 import { loginAction } from "../../services/login/login-action"
 import { loginSchema } from "../../services/schemas"
 import { motion } from "framer-motion"
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
+import { mapFormData } from "../../lib/utils"
+import { GoogleLoginButton } from "../GoogleAuthButton"
 
-function LoginFormCore() {
+type LoginFormParams = {
+    initialMessage?: string
+    nextRedirect?: string
+}
+
+function LoginFormCore({ initialMessage, nextRedirect } : LoginFormParams) {
     const [seePassword, setSeePassword] = useState(false);
     const [state, action, pending] = useActionState(loginAction, { success: false });
+    const router = useRouter();
+
 
     const form = useForm<z.infer<typeof loginSchema>>({
         resolver: zodResolver(loginSchema),
@@ -30,6 +39,14 @@ function LoginFormCore() {
     })
 
     useEffect(() => {
+        if (state.success) {
+            console.log("Login bem sucedido!");
+
+            toast.success("Login efetuado com sucesso!");
+            router.push(nextRedirect ?? "/");
+            return; 
+        }
+
         if (!state.data && state.errors) {
             Object.entries(state.errors).forEach(([field, messages]) => {
                 if (messages && messages.length > 0) {
@@ -44,12 +61,12 @@ function LoginFormCore() {
 
     const onSubmit = (data: LoginInput) => {
         const formData = new FormData();
-        formData.append('identifier', data.identifier);
-        formData.append('password', data.password);
+        mapFormData(data, formData);
 
         startTransition(() => {
             action(formData);
         });
+        
     }
 
     return (
@@ -61,10 +78,7 @@ function LoginFormCore() {
             
             <section className="w-full space-y-8">
                 <div className="w-full space-y-4">
-                    <Button variant={"outline"} className={"text-xs rounded! p-4 w-full h-8 bg-white gap-4"}>
-                       <Image src={googleLogo} alt="google-logo" width={18} /> 
-                       Entrar com o Google
-                    </Button>
+                    <GoogleLoginButton />
                 </div>
                 
                 <Separator />
@@ -79,6 +93,17 @@ function LoginFormCore() {
                             >
                                 <CircleAlertIcon size={16} />
                                 <p className="text-xs">{state.message}</p>
+                            </motion.div>
+                        )}
+
+                        {initialMessage && (
+                            <motion.div 
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: "auto" }}
+                                className="p-3 text-xs bg-red-100 text-red-700 rounded flex items-center gap-2 mb-4"
+                            >
+                                <CircleAlertIcon size={16} />
+                                <p className="text-xs">{initialMessage}</p>
                             </motion.div>
                         )}
                         
@@ -139,7 +164,7 @@ function LoginFormCore() {
     )
 }
 
-export function LoginForm() {
+export function LoginForm({ initialMessage } : LoginFormParams) {
     return (
         <motion.div 
             initial={{ opacity: 0, y: 30 }}
@@ -151,7 +176,7 @@ export function LoginForm() {
             }}
             className="w-full flex justify-center"
         >
-            <LoginFormCore />
+            <LoginFormCore initialMessage={initialMessage} />
         </motion.div>
     )
 }

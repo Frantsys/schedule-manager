@@ -15,12 +15,16 @@ import { Controller, useForm } from "react-hook-form"
 import { signupSchema } from "../../services/schemas";
 import { signUpAction } from "../../services/signup/signup-action";
 import { motion } from "framer-motion"
+import { mapFormData } from "../../lib/utils";
+import { GoogleLoginButton } from "../GoogleAuthButton";
 
 type SignUpSchema = z.infer<typeof signupSchema>;
 
 
+
+
+
 /**
- * - Uso do princípio S de SOLID
  * Single Responsability
  * Ao isolar a lógica do formulário reativo do wrapper de animações
  * crio um componente mais fácil de se ler e manter
@@ -56,18 +60,20 @@ function SignUpFormCore() {
 
     const onSubmit = (data: SignUpSchema) => {
         const formData = new FormData();
-        formData.append("name", data.name);
-        formData.append("email", data.email);
-        formData.append("password", data.password);
-        formData.append("confirmPassword", data.confirmPassword);
         
+        mapFormData(data, formData);
+
+        console.log(formData.keys().toArray());
+
         startTransition(() => {
             action(formData); 
         });
     }
 
     return (
-        <div className="w-82 h-256 pb-8 max-h-full overflow-y-auto scrollbar-none md:pt-6 md:h-fit md:w-full flex flex-col items-center gap-8">
+        <div className="w-82 h-256 
+        pb-8 max-h-full overflow-y-auto scrollbar-none 
+        md:pt-6 md:h-fit md:w-full flex flex-col items-center gap-8">
             <section className="mt-18 flex flex-col items-center gap-2 md:mt-0">
                 <h1 className="text-2xl font-bold font-heading">Criar conta</h1>
                 <p className="text-sm text-center text-muted-foreground">Encontre profissionais de diversas especialidades próximos de você.</p>
@@ -75,10 +81,7 @@ function SignUpFormCore() {
             
             <section className="w-full space-y-4">
                 <div className="w-full flex justify-center space-y-4">
-                    <Button variant={"outline"} className={"text-xs rounded! p-4 w-full md:md:w-5/10 h-8 bg-white gap-4"}>
-                       <Image src={googleLogo} alt="google-logo" width={18} /> 
-                       Entrar com o Google
-                    </Button>
+                    <GoogleLoginButton />
                 </div>
                 
                 <Separator />
@@ -202,7 +205,7 @@ export function SignUpForm() {
                 stiffness: 260, 
                 damping: 20 
             }}
-            className="w-full flex justify-center"
+            className="w-full h-full flex justify-center items-center"
         >
             <SignUpFormCore />
         </motion.div>

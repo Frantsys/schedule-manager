@@ -7,7 +7,6 @@ import { loginSchema } from "../schemas";
 
 
 export const loginRequest = async (body: LoginInput) => {
-
     try {
         console.log("Iniciando request")
 

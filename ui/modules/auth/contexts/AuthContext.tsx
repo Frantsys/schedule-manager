@@ -1,8 +1,8 @@
 "use client"
 
 import { api_url_public } from "@/enviroment";
-import { UserCredentials } from "@/types";
 import { createContext, ReactNode, useContext, useState } from "react";
+import { UserCredentials } from "../types";
 
 interface AuthContextType {
     user: UserCredentials | null
@@ -11,7 +11,8 @@ interface AuthContextType {
 
 const logoutRequest = async () => {
     await fetch(`${api_url_public}/auth/logout`, {
-        method: "POST"
+        method: "POST",
+        credentials: "include"
     });
 }
 

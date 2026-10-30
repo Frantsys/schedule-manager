@@ -1,8 +1,8 @@
 import { api_url } from "@/enviroment";
-import { UserCredentials } from "@/types";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react"
+import { UserCredentials } from "../../types";
 
 
 
@@ -18,6 +18,11 @@ export async function AuthGuard({
 
     const cookieStore = await cookies();
     const token = cookieStore.get("AccessToken")?.value;
+
+    // o proxy.ts já faz isso em teoria, mas testa novamente
+    if (!token) {
+        redirect("/login?reason=unauthorized");
+    }
 
     // Como o Next.js faz o cache da requisição (Fetch Memoization),
     // isso não gera custo de rede extra se o RootLayout já tiver chamado o /me.

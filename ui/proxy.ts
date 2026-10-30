@@ -7,10 +7,15 @@ import { api_url } from "@/enviroment";
 // Presume-se que o modelo de token é JWT
 function isTokenExpired(token: string) {
     try {
-        const payload = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
+        const payloadBase64 = token.split('.')[1];
+        // atob() decodifica Base64 nativamente no Edge Runtime
+        const decodedJson = atob(payloadBase64);
+        const payload = JSON.parse(decodedJson);
+        
+        // Retorna true se expirar em menos de 60 segundos
         return payload.exp < Math.floor(Date.now() / 1000) + 60;
     } catch {
-        return true;
+        return true; // Na dúvida (token malformado), considera expirado
     }
 }
 

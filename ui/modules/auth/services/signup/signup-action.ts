@@ -1,13 +1,21 @@
-import { api_url } from "@/enviroment";
+import { api_url_public } from "@/enviroment";
 import { SignUpInput } from "../../types";
-import z from "@/node_modules/zod/v4/classic/external.cjs";
+import z from "zod";
 import { signupSchema } from "../schemas";
 import { ActionState } from "../types";
+
+type DefaultErrorMessage = {
+  status: string
+  error: string
+  response: {
+    message: string[]
+  }
+}
 
 
 export const signUpRequest = async (body: SignUpInput) => {
     try {
-        const response = await fetch(`${api_url}/v1/api/auth/signup`, {
+        const response = await fetch(`${api_url_public}/v1/api/auth/signup`, {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
@@ -19,26 +27,33 @@ export const signUpRequest = async (body: SignUpInput) => {
         }
       }
 
-      const errorMessage = await response.text();
-      console.log(errorMessage)
+      const errorMessage = await response.json() as DefaultErrorMessage;
+      console.log("Signup Error message retrieved: " + errorMessage.response.message[0])
 
       if (response.status == 400) {
         return {
             success: false,
-            message: errorMessage || "Credenciais inválidas."
+            message: errorMessage.response.message[0] || "Credenciais inválidas."
         }
       }
 
       if (response.status == 401) {
         return {
             success: false,
-            message: errorMessage || "Acesso não autorizado."
+            message: errorMessage.response.message[0] || "Acesso não autorizado."
+        }
+      }
+
+      if (response.status == 404) {
+        return {
+            success: false,
+            message: "Serviço indisponível."
         }
       }
 
       return {
         success: false,
-        message: errorMessage || "Erro interno do servidor. Tente mais tarde."
+        message: errorMessage.response.message[0] || "Erro interno do servidor. Tente mais tarde."
       };
     }
     catch(error) {
